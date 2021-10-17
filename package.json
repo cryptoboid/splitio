@@ -24,8 +24,11 @@
 	"devDependencies": {
 		"@material/theme": "^11.0.0",
 		"@material/typography": "^11.0.0",
+		"@smui/paper": "^5.0.0-beta.7",
+		"@smui/ripple": "^5.0.0-beta.7",
 		"@smui/tab": "^5.0.0-beta.7",
 		"@smui/tab-bar": "^5.0.0-beta.7",
+		"@smui/textfield": "^5.0.0-beta.7",
 		"@sveltejs/adapter-vercel": "^1.0.0-next.31",
 		"@sveltejs/kit": "next",
 		"@typescript-eslint/eslint-plugin": "^4.19.0",

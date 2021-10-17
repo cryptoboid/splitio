@@ -1,10 +1,17 @@
 <script lang="ts">
 	import Button, { Label } from '@smui/button';
-	import TopAppBar, { Row, Section, Title,     AutoAdjust,
-    TopAppBarComponentDev } from '@smui/top-app-bar';
+	import TopAppBar, {
+		Row,
+		Section,
+		Title,
+		AutoAdjust,
+		TopAppBarComponentDev
+	} from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
 	import Tab, { Icon, Label as TabLabel } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
+	import SplitioIcon from '$lib/SplitioIcon.svelte';
+
 	let tabs = [
 		{
 			icon: 'group',
@@ -38,10 +45,7 @@
 <TopAppBar variant="standard">
 	<Row>
 		<Section>
-			<img src="https://static.thenounproject.com/png/1894381-84.png" height="36px" alt="icon" style="margin-left: 5px"/>
-			<Title style="font-family: Josefin Sans; margin-left: -17px; font-size: x-large;"
-				>splitio</Title
-			>
+				<SplitioIcon isTopApp />
 		</Section>
 		<Section align="end">
 			<IconButton on:click={switchTheme} class="material-icons" aria-label="Information"
@@ -51,12 +55,14 @@
 	</Row>
 </TopAppBar>
 <AutoAdjust {topAppBar}>
-<!-- <div style="display: flex; flex-direction: column; justify-content: space-between;"></div> -->
+	<!-- <div style="display: flex; flex-direction: column; justify-content: space-between;"></div> -->
 	<div class="container"><slot /></div>
-<!-- </div> -->
+	<!-- </div> -->
 </AutoAdjust>
 
-<div style="position: sticky; bottom: 0; width: 100%;background: {lightTheme? '#f7f7f7' : '#191919'}">
+<div
+	style="position: fixed; bottom: 0; width: 100%;background: {lightTheme ? '#f7f7f7' : '#191919'}"
+>
 	<TabBar {tabs} let:tab bind:active>
 		<Tab {tab} stacked>
 			<Icon class="material-icons">{tab.icon}</Icon>

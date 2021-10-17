@@ -25,3 +25,7 @@ a {
 a:visited {
   color: color.scale(#40b3ff, $lightness: -35%);
 }
+
+.homepage-container {
+  background-color: theme.$primary;
+}
