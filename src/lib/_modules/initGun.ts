@@ -1,6 +1,6 @@
 import Gun from 'gun';
 
-export const GUN = Gun({
+export const initGun = () => Gun({
     peers: [
         // Community relay peers: https://github.com/amark/gun/wiki/volunteer.dht
         'https://gunmeetingserver.herokuapp.com/gun',

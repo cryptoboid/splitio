@@ -15,7 +15,7 @@
 	import { onMount } from 'svelte';
 	import Fab, { Icon as FabIcon } from '@smui/fab';
 	import List, { Item, Text, PrimaryText, SecondaryText, Meta, Graphic } from '@smui/list';
-	import { GUN } from '../../_modules/initGun';
+	import { initGun } from '$lib/_modules/initGun';
 
 	// import user from '../_modules/user';
 
@@ -25,7 +25,7 @@
 
 	onMount(() => {
 		// getUserOrShowLogin();
-
+		const GUN = initGun();
 		const db = GUN.get('splitio');
 		const GROUPID = groupId || 'unknown group';
 		groupDB = db.get(GROUPID);
