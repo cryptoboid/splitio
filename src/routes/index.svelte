@@ -226,9 +226,6 @@
 </div>
 
 <style>
-	.grayed {
-		opacity: 0.6;
-	}
 
 	.flexy {
 		/* display: flex;
