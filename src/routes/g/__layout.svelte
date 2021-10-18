@@ -52,7 +52,10 @@
 </TopAppBar>
 <AutoAdjust {topAppBar}>
 	<!-- <div style="display: flex; flex-direction: column; justify-content: space-between;"></div> -->
-	<div class="container"><slot /></div>
+	<div class="container">
+		<slot/>
+	</div>
+	<div class="mdc-typography--caption footer">made with ❤️ by cryptoboid</div>
 	<!-- </div> -->
 </AutoAdjust>
 <!-- 
@@ -66,3 +69,11 @@
 		</Tab>
 	</TabBar>
 </div> -->
+
+<style>
+	.footer {
+		text-align: center;
+		color: grey;
+		height: 20px;
+	}
+</style>
