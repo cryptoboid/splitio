@@ -122,6 +122,14 @@
 			<Meta class="material-icons">clear</Meta>
 		</Item>
 	{/each}
+	{#if !members.length}
+		<Item disabled>
+			<Text>
+				<PrimaryText>nothing yet...</PrimaryText>
+				<SecondaryText>add a new expense with the plus sign</SecondaryText>
+			</Text>
+		</Item>
+	{/if}
 </List>
 
 <div class="mdc-typography--headline5">🤝 members</div>
