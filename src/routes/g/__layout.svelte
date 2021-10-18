@@ -38,7 +38,7 @@
 	}
 </script>
 
-<TopAppBar variant="standard">
+<TopAppBar bind:this={topAppBar} variant="standard">
 	<Row>
 		<Section>
 				<SplitioIcon isTopApp />

@@ -108,7 +108,6 @@
 	<title>splitio | {store.groupInfo.name}</title>
 </svelte:head>
 
-<br /><br /><br />
 <div class="mdc-typography--headline5">{store.groupInfo.name}</div>
 <br />
 <div class="mdc-typography--headline5">💸 group expenses</div>

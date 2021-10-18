@@ -8,6 +8,7 @@
 	import CreateGroupDialog from '$lib/CreateGroupDialog.svelte';
 	import { onMount } from 'svelte';
 	import { initAppDB } from '$lib/_modules/initGun';
+	import { redirectToGroup } from '$lib/_modules/utils';
 
 	let groupValue = '';
 	let openCreateGroupDialog: boolean = false;
@@ -15,7 +16,7 @@
 	function handleKeyDown(event: CustomEvent | KeyboardEvent) {
 		event = event as KeyboardEvent;
 		if (event.key === 'Enter') {
-			window.location.href = '/g/' + groupValue;
+			redirectToGroup(groupValue);
 		}
 	}
 
@@ -34,7 +35,7 @@
 			.get('groupInfo')
 			.get('name')
 			.put(groupName, (ack) => {
-				if (!ack.err) window.location.href = '/g/' + nodeid;
+				if (!ack.err) redirectToGroup(nodeid);
 			});
 		// appDB.get(nodeid).get('groupInfo').get('name').once((da) => console.log("NODENAME:", da));
 	};
@@ -68,7 +69,7 @@
 				class="solo-input"
 			/>
 		</Paper>
-		<Fab href="/g/{groupValue}" exited={groupValue === ''} color="secondary" class="solo-fab">
+		<Fab on:click={() => redirectToGroup(groupValue)} exited={groupValue === ''} color="secondary" class="solo-fab">
 			<Icon class="material-icons">arrow_forward</Icon>
 		</Fab>
 	</div>
