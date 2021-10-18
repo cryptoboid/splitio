@@ -1,15 +1,11 @@
 <script lang="ts">
-	import Button, { Label } from '@smui/button';
 	import TopAppBar, {
 		Row,
 		Section,
-		Title,
 		AutoAdjust,
 		TopAppBarComponentDev
 	} from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
-	import Tab, { Icon, Label as TabLabel } from '@smui/tab';
-	import TabBar from '@smui/tab-bar';
 	import SplitioIcon from '$lib/SplitioIcon.svelte';
 
 	let tabs = [
@@ -22,7 +18,7 @@
 			label: 'you'
 		}
 	];
-	let active = tabs[0];
+
 	let topAppBar: TopAppBarComponentDev;
 
 	let lightTheme =
@@ -59,7 +55,7 @@
 	<div class="container"><slot /></div>
 	<!-- </div> -->
 </AutoAdjust>
-
+<!-- 
 <div
 	style="position: fixed; bottom: 0; width: 100%;background: {lightTheme ? '#f7f7f7' : '#191919'}"
 >
@@ -69,4 +65,4 @@
 			<TabLabel>{tab.label}</TabLabel>
 		</Tab>
 	</TabBar>
-</div>
+</div> -->

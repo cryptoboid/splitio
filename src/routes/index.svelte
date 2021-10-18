@@ -4,12 +4,13 @@
 	import Fab from '@smui/fab';
 	import { Icon } from '@smui/common';
 	import SplitioIcon from '$lib/SplitioIcon.svelte';
+	import Button, { Label } from '@smui/button';
+	import CreateGroupDialog from '$lib/CreateGroupDialog.svelte';
+	import { onMount } from 'svelte';
+	import { initAppDB } from '$lib/_modules/initGun';
 
 	let groupValue = '';
-
-	// function doSearch() {
-	// 	alert('Search for ' + groupValue);
-	// }
+	let openCreateGroupDialog: boolean = false;
 
 	function handleKeyDown(event: CustomEvent | KeyboardEvent) {
 		event = event as KeyboardEvent;
@@ -17,20 +18,43 @@
 			window.location.href = '/g/' + groupValue;
 		}
 	}
+
+	let appDB: any = undefined;
+
+	onMount(() => {
+		appDB = initAppDB();
+	});
+
+	const createGroup = async (groupName: string) => {
+		const result = appDB
+			.get(groupName)
+			.put({ expenses: {}, members: {}, groupInfo: { name: groupName } });
+
+		console.log(result);
+		window.location.href = '/g/'+groupName;
+	};
 </script>
 
 <svelte:head>
 	<title>splitio | home</title>
 </svelte:head>
 
-
 <div class="homepage-container">
 	<div>
 		<SplitioIcon />
 	</div>
 	<div class="group-text-container">
-		<div class="mdc-typography--body1">paste your group id here:</div>
-		<Paper class="solo-paper" elevation={6}>
+		<Button
+			style="border-radius: 17px; margin: 1.5rem"
+			variant="raised"
+			color="secondary"
+			on:click={() => (openCreateGroupDialog = true)}
+		>
+			<Icon class="material-icons">add</Icon>
+			<Label>create group</Label>
+		</Button>
+		<div class="mdc-typography--body1">or paste your group id here:</div>
+		<Paper class="solo-paper" elevation={4}>
 			<Icon class="material-icons">group</Icon>
 			<Input
 				bind:value={groupValue}
@@ -45,9 +69,8 @@
 	</div>
 </div>
 
-<!-- <div id="home-background" /> -->
+<CreateGroupDialog bind:openDialog={openCreateGroupDialog} addCallback={createGroup} />
 
-<!-- <body class="bg"/> -->
 <style>
 	.homepage-container {
 		min-height: 100vh;
@@ -58,7 +81,7 @@
 	}
 
 	.group-text-container {
-		padding: 0px 18px;
+		/* padding: 0px 1px; */
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -70,7 +93,7 @@
 		align-items: center;
 		flex-grow: 1;
 		max-width: 600px;
-		margin: 10px 12px;
+		margin: 1rem 12px;
 		padding: 0 12px;
 		height: 48px;
 	}
@@ -88,6 +111,6 @@
 	}
 	* :global(.solo-fab) {
 		flex-shrink: 0;
-		margin-top: 1rem
+		margin-top: 0rem;
 	}
 </style>

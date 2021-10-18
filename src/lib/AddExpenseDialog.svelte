@@ -1,0 +1,71 @@
+<script lang="ts">
+	import Dialog, { Title, Content, Actions } from '@smui/dialog';
+	import Button, { Label } from '@smui/button';
+	import Textfield from '@smui/textfield';
+	import LayoutGrid, { Cell } from '@smui/layout-grid';
+	import Select, { Option } from '@smui/select';
+	import Icon from '@smui/select/icon';
+	import { Graphic } from '@smui/list';
+
+	export let openDialog = false;
+	export let addCallback: Function = () => {};
+	export let membersList: Array<Array<string | object>> = [];
+
+	let inputName: string = '';
+	let inputAmount: number = 0.0;
+	let inputPaidBy: string = '';
+</script>
+
+<Dialog
+	bind:open={openDialog}
+	aria-labelledby="default-focus-title"
+	aria-describedby="default-focus-content"
+>
+	<Title id="default-focus-title">🧾 add expense</Title>
+	<Content id="default-focus-content">
+		<LayoutGrid>
+			<Cell span={12}>
+				enter a description:
+				<Textfield bind:value={inputName} />
+			</Cell>
+			<Cell span={12}>
+				enter the $ amount:
+				<Textfield type="number" bind:value={inputAmount} />
+			</Cell>
+			<Cell span={12}>
+				who payed?
+				<Select bind:value={inputPaidBy}>
+					<Icon
+						slot="leadingIcon"
+						style="background-image: url(https://source.boringavatars.com/beam/24/{inputPaidBy}?colors=4DAB8C,542638,8F244D,C9306B,E86F9E);"
+					/>
+					<Option value="" />
+					{#each membersList as [key, member]}
+						<Option value={member.name}>
+							<Graphic
+								style="background-image: url(https://source.boringavatars.com/beam/24/{member.name}?colors=4DAB8C,542638,8F244D,C9306B,E86F9E);"
+							/>{member.name}</Option
+						>
+					{/each}
+				</Select>
+			</Cell>
+		</LayoutGrid>
+	</Content>
+	<Actions>
+		<Button>
+			<Label>cancel</Label>
+		</Button>
+		<Button
+			variant="unelevated"
+			disabled={inputName === '' || inputAmount === 0.0 || inputPaidBy === ''}
+			on:click={() => {
+				addCallback(inputName, inputAmount, inputPaidBy);
+				inputName = '';
+				inputAmount = 0.0;
+				inputPaidBy = '';
+			}}
+		>
+			<Label>add</Label>
+		</Button>
+	</Actions>
+</Dialog>

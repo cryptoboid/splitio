@@ -34,7 +34,7 @@
 	.logo-home {
 		font-family: Josefin Sans;
 		font-size: 3rem;
-		margin-bottom: 5rem;
+		margin-bottom: 3rem;
 	}
 
 	[tabindex='0'] {

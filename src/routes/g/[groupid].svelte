@@ -7,7 +7,7 @@
 			props: {
 				groupId: page.params.groupid
 			}
-		}
+		};
 	}
 </script>
 
@@ -15,20 +15,23 @@
 	import { onMount } from 'svelte';
 	import Fab, { Icon as FabIcon } from '@smui/fab';
 	import List, { Item, Text, PrimaryText, SecondaryText, Meta, Graphic } from '@smui/list';
-	import { initGun } from '$lib/_modules/initGun';
+	import { initAppDB } from '$lib/_modules/initGun';
+	import AddExpenseDialog from '$lib/AddExpenseDialog.svelte';
+	import AddMemberDialog from '$lib/AddMemberDialog.svelte';
 
 	// import user from '../_modules/user';
 
 	export let groupId: string;
 
-	let groupDB = undefined;
+	let groupDB: any = undefined;
+
+	let openAddMemberDialog: boolean = false;
+	let openAddExpenseDialog: boolean = false;
 
 	onMount(() => {
-		// getUserOrShowLogin();
-		const GUN = initGun();
-		const db = GUN.get('splitio');
+		const appDB = initAppDB();
 		const GROUPID = groupId || 'unknown group';
-		groupDB = db.get(GROUPID);
+		groupDB = appDB.get(GROUPID);
 
 		groupDB
 			.get('expenses')
@@ -52,7 +55,7 @@
 			.on((member, key) => {
 				if (member) {
 					// Updates the store with the new value
-					store.members[key] = member.name;
+					store.members[key] = member;
 				} else {
 					// A key may contain a null value (if data has been deleted/set to null)
 					// if so, we remove the item from the store
@@ -60,27 +63,43 @@
 					store.members = store.members;
 				}
 			});
+
+		groupDB
+			.get('groupInfo')
+			.get('name')
+			.on((data, key) => {
+				console.log(data, key);
+				if (data) {
+					// Updates the store with the new value
+					store.groupInfo.name = data;
+				} else {
+					// A key may contain a null value (if data has been deleted/set to null)
+					// if so, we remove the item from the store
+					delete store.groupInfo[key];
+					store.groupInfo = store.groupInfo;
+				}
+			});
 	});
 
-	const createExpense = async (userTitle: string, userAmount: number) => {
-		const name = "cryptoboid";//getUsername();
-		if (!name) throw SyntaxError;
-		groupDB
-			.get("expenses")
-			.set({
-				title: userTitle,
-				amount: userAmount,
-				paidBy: name
-			});
-		// newAmount = 0;
-		// newTitle = "";
+	const addExpense = async (expenseName: string, expenseAmount: number, memberName: string) => {
+		const memberExists = memberName in store.members;
+		if (!memberExists) throw SyntaxError;
+		groupDB.get('expenses').set({
+			title: expenseName,
+			amount: expenseAmount,
+			paidBy: memberName
+		});
 	};
 
 	const removeExpense = (key: string) => {
-		groupDB.get("expenses").get(key).put(null);
+		groupDB.get('expenses').get(key).put(null);
 	};
 
-	let store: object = { expenses: {}, members: {}, groupInfo: {} };
+	const addMember = (memberName: string) => {
+		groupDB.get('members').get(memberName).put({ name: memberName });
+	};
+
+	let store: object = { expenses: {}, members: {}, groupInfo: {name: '... loading'} };
 	$: expenses = Object.entries(store.expenses);
 	$: members = Object.entries(store.members);
 </script>
@@ -90,7 +109,7 @@
 </svelte:head>
 
 <br /><br /><br />
-<div class="mdc-typography--headline5">Awesome ski trip</div>
+<div class="mdc-typography--headline5">{store.groupInfo.name}</div>
 <br />
 <div class="mdc-typography--headline5">💸 group expenses</div>
 
@@ -108,36 +127,36 @@
 
 <div class="mdc-typography--headline5">🤝 members</div>
 
-<List oneLine avatarList>
+<List oneLine avatarList style="margin-bottom: 70px;">
 	{#each members as [key, member]}
-	<Item disabled>
-		<Graphic style="background-image: url(https://place-hold.it/40x40?text=CH&fontsize=16);" />
-		<Text>charles</Text>
-		<Meta class="material-icons">clear</Meta>
-	</Item>
+		<Item>
+			<Graphic
+				style="background-image: url(https://source.boringavatars.com/beam/40/{member.name}?colors=4DAB8C,542638,8F244D,C9306B,E86F9E);"
+			/>
+			<Text>{member.name}</Text>
+			<Meta class="material-icons">info</Meta>
+		</Item>
 	{/each}
+	<Item on:click={() => (openAddMemberDialog = true)}>
+		<Text>add someone</Text>
+		<Meta class="material-icons">person_add</Meta>
+	</Item>
 </List>
-
-<!-- <Button on:mousedown={handleClick} style="border-radius: 0px;">
-	<Icon class="material-icons">thumb_up</Icon>
-	<Label>Click Me</Label>
-</Button>
-<p class="mdc-typography--body1">
-	{#if clicked}
-		You've clicked the button {clicked} time{clicked === 1 ? '' : 's'}. Middle click the button to
-		reset.
-	{:else}
-		<span class="grayed">You haven't clicked the button.</span>
-	{/if}
-</p> -->
 
 <div class="flexy">
 	<div class="margins">
-		<Fab style="border-radius: 17px;" on:click={() => createExpense("hosting budget", 0.01)}>
+		<Fab style="border-radius: 17px;" on:click={() => (openAddExpenseDialog = true)}>
 			<FabIcon class="material-icons">add</FabIcon>
 		</Fab>
 	</div>
 </div>
+
+<!-- add member dialog -->
+<AddMemberDialog bind:openDialog={openAddMemberDialog} addCallback={addMember}/>
+
+
+<!-- add expense dialog -->
+<AddExpenseDialog membersList={members} bind:openDialog={openAddExpenseDialog} addCallback={addExpense}/>
 
 <style>
 	.flexy {
@@ -145,7 +164,7 @@
 		flex-wrap: wrap;
 		align-items: center; */
 		position: fixed;
-		bottom: 82px;
+		bottom: 10px;
 		right: 10px;
 		z-index: 1;
 	}
