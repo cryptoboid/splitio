@@ -26,12 +26,17 @@
 	});
 
 	const createGroup = async (groupName: string) => {
-		const result = appDB
-			.get(groupName)
-			.put({ expenses: {}, members: {}, groupInfo: { name: groupName } });
-
-		console.log(result);
-		window.location.href = '/g/'+groupName;
+		const result = appDB.set({ expenses: {}, members: {}, groupInfo: {} });
+		const nodeid = result._.has;
+		console.log(result, result._.has);
+		appDB
+			.get(nodeid)
+			.get('groupInfo')
+			.get('name')
+			.put(groupName, (ack) => {
+				if (!ack.err) window.location.href = '/g/' + nodeid;
+			});
+		// appDB.get(nodeid).get('groupInfo').get('name').once((da) => console.log("NODENAME:", da));
 	};
 </script>
 
