@@ -108,10 +108,10 @@
 	}
 	* :global(.solo-input) {
 		flex-grow: 1;
-		color: var(--mdc-theme-on-surface, #000);
+		color: var(--mdc-theme-on-surface, gray);
 	}
 	* :global(.solo-input::placeholder) {
-		color: var(--mdc-theme-on-surface, #000);
+		color: var(--mdc-theme-on-surface, gray);
 		opacity: 0.6;
 	}
 	* :global(.solo-fab) {
