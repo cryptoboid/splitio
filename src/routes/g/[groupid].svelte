@@ -105,7 +105,7 @@
 </script>
 
 <svelte:head>
-	<title>splitio | {groupId}</title>
+	<title>splitio | {store.groupInfo.name}</title>
 </svelte:head>
 
 <br /><br /><br />
