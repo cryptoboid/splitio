@@ -1,6 +1,7 @@
 <script lang="ts">
-	import Dialog, { Title, Content, Actions } from '@smui/dialog';
-	import Button, { Label } from '@smui/button';
+  	import Dialog, { Header, Title, Content, Actions } from '@smui/dialog';
+  	import IconButton from '@smui/icon-button';
+  	import Button, { Label } from '@smui/button';
 	import Textfield from '@smui/textfield';
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import Select, { Option } from '@smui/select';
@@ -18,13 +19,17 @@ import { getMemberAvatarURL } from './_modules/utils';
 </script>
 
 <Dialog
+	fullscreen
 	bind:open={openDialog}
 	aria-labelledby="default-focus-title"
 	aria-describedby="default-focus-content"
 >
-	<Title id="default-focus-title">🧾 add expense</Title>
-	<Content id="default-focus-content">
-		<LayoutGrid>
+	<Header>
+		<Title id="fullscreen-title">⚖️ balances</Title>
+		<IconButton action="close" class="material-icons">close</IconButton>
+	</Header>
+  	<Content id="default-focus-content">
+		<!-- <LayoutGrid>
 			<Cell span={12}>
 				enter a description:
 				<Textfield bind:value={inputName} />
@@ -50,7 +55,55 @@ import { getMemberAvatarURL } from './_modules/utils';
 					{/each}
 				</Select>
 			</Cell>
-		</LayoutGrid>
+		</LayoutGrid> -->
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		asdsadasasdsadasa
+		
 	</Content>
 	<Actions>
 		<Button>

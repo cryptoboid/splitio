@@ -18,6 +18,9 @@
 	import { initAppDB } from '$lib/_modules/initGun';
 	import AddExpenseDialog from '$lib/AddExpenseDialog.svelte';
 	import AddMemberDialog from '$lib/AddMemberDialog.svelte';
+	import { getMemberAvatarURL } from '$lib/_modules/utils';
+	import Button, { Label } from '@smui/button';
+import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 
 	// import user from '../_modules/user';
 
@@ -27,6 +30,7 @@
 
 	let openAddMemberDialog: boolean = false;
 	let openAddExpenseDialog: boolean = false;
+	let openViewBalancesDialog: boolean = false;
 
 	onMount(() => {
 		const appDB = initAppDB();
@@ -99,7 +103,7 @@
 		groupDB.get('members').get(memberName).put({ name: memberName });
 	};
 
-	let store: object = { expenses: {}, members: {}, groupInfo: {name: '... loading'} };
+	let store: object = { expenses: {}, members: {}, groupInfo: { name: '... loading' } };
 	$: expenses = Object.entries(store.expenses);
 	$: members = Object.entries(store.members);
 </script>
@@ -109,6 +113,9 @@
 </svelte:head>
 
 <div class="mdc-typography--headline5">{store.groupInfo.name}</div>
+<Button on:click={() => (openViewBalancesDialog = true)} variant="unelevated">
+	<Label>balances</Label>
+  </Button>
 <br />
 <div class="mdc-typography--headline5">💸 group expenses</div>
 
@@ -137,9 +144,7 @@
 <List oneLine avatarList style="margin-bottom: 70px;">
 	{#each members as [key, member]}
 		<Item>
-			<Graphic
-				style="background-image: url(https://source.boringavatars.com/beam/40/{member.name}?colors=4DAB8C,542638,8F244D,C9306B,E86F9E);"
-			/>
+			<Graphic style="background-image: url({getMemberAvatarURL(member.name)});" />
 			<Text>{member.name}</Text>
 			<Meta class="material-icons">info</Meta>
 		</Item>
@@ -159,11 +164,16 @@
 </div>
 
 <!-- add member dialog -->
-<AddMemberDialog bind:openDialog={openAddMemberDialog} addCallback={addMember}/>
-
+<AddMemberDialog bind:openDialog={openAddMemberDialog} addCallback={addMember} />
 
 <!-- add expense dialog -->
-<AddExpenseDialog membersList={members} bind:openDialog={openAddExpenseDialog} addCallback={addExpense}/>
+<AddExpenseDialog
+	membersList={members}
+	bind:openDialog={openAddExpenseDialog}
+	addCallback={addExpense}
+/>
+
+<ViewBalancesDialog bind:openDialog={openViewBalancesDialog}/>
 
 <style>
 	.flexy {
