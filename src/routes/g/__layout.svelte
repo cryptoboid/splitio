@@ -74,6 +74,6 @@
 	.footer {
 		text-align: center;
 		color: grey;
-		height: 20px;
+		height: 33px;
 	}
 </style>
