@@ -1,0 +1,17 @@
+{
+    "short_name": "splitio",
+    "name": "splitio",
+    "start_url": "/",
+    "icons": [
+      {
+        "src": "favicon.png",
+        "type": "image/png",
+        "sizes": "84x84"
+      }
+    ],
+    "background_color": "#2af38f",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#2af38f",
+    "description": "split your expenses easily with your friends!"
+}
