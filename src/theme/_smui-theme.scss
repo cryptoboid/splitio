@@ -29,3 +29,11 @@ a:visited {
 .homepage-container {
   background-color: theme.$primary;
 }
+
+.error-text {
+  color: theme.$error !important
+}
+
+.success-text {
+  color: color.scale(theme.$primary, $lightness: -35%) !important
+}

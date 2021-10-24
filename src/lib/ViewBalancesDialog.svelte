@@ -1,17 +1,37 @@
 <script lang="ts">
-  	import Dialog, { Header, Title, Content, Actions } from '@smui/dialog';
-  	import IconButton from '@smui/icon-button';
-  	import Button, { Label } from '@smui/button';
-	import Textfield from '@smui/textfield';
-	import LayoutGrid, { Cell } from '@smui/layout-grid';
-	import Select, { Option } from '@smui/select';
-	import Icon from '@smui/select/icon';
-	import { Graphic } from '@smui/list';
+	import Dialog, { Header, Title, Content } from '@smui/dialog';
+	import IconButton from '@smui/icon-button';
+	import List, { Item, Text, PrimaryText, SecondaryText, Meta, Graphic } from '@smui/list';
 	import { getMemberAvatarURL } from './_modules/utils';
 
 	export let openDialog = false;
-	export let addCallback: Function = () => {};
 	export let membersList: Array<Array<string | object>> = [];
+	export let expensesList: Array<Array<string | object>> = [];
+
+	const computeBalances = (allexpenses, allMembers) => {
+		if (!allexpenses || allMembers.length === 0) return [];
+		// console.log(allMembers);
+		let total = allexpenses.map((x) => x[1].amount).reduce((a, b) => a + b, 0);
+		let numMembers = allMembers.length;
+		let eachUserBalance = {};
+
+		for (const member of allMembers) {
+			eachUserBalance[member[0]] = 0;
+		}
+
+		for (const expense of allexpenses) {
+			let payer = expense[1].paidBy;
+			eachUserBalance[payer] += expense[1].amount;
+		}
+
+		for (let [usr, balance] of Object.entries(eachUserBalance)) {
+			eachUserBalance[usr] = balance - total / numMembers;
+		}
+
+		return Object.entries(eachUserBalance);
+	};
+
+	$: balances = computeBalances(expensesList, membersList);
 </script>
 
 <Dialog
@@ -24,7 +44,22 @@
 		<Title id="fullscreen-title">⚖️ balances</Title>
 		<IconButton action="close" class="material-icons">close</IconButton>
 	</Header>
-  	<Content id="default-focus-content">
+	<Content id="default-focus-content">
+		<List twoLine avatarList style="margin-bottom: 70px;">
+			{#each balances as [name, amount]}
+				<Item>
+					<Graphic style="background-image: url({getMemberAvatarURL(name)});" />
+					<Text>
+						<PrimaryText>{name}</PrimaryText>
+						<SecondaryText class={amount < 0 ? 'error-text' : 'success-text'}
+							>{amount < 0 ? 'owes' : 'receives'} ${Math.abs(amount)}</SecondaryText
+						>
+					</Text>
+					<!-- <Meta class="material-icons">info</Meta> -->
+				</Item>
+			{/each}
+		</List>
+
 		<!-- <LayoutGrid>
 			<Cell span={12}>
 				enter a description:
@@ -52,53 +87,5 @@
 				</Select>
 			</Cell>
 		</LayoutGrid> -->
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		asdsadasasdsadasa
-		
 	</Content>
 </Dialog>

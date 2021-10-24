@@ -30,3 +30,11 @@ a:visited {
   background-color: theme.$primary;
   color: #000;
 }
+
+.error-text {
+  color: color.scale(theme.$error, $lightness: +35%) !important
+}
+
+.success-text {
+  color: theme.$primary !important
+}

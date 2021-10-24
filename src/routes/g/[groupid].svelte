@@ -20,7 +20,7 @@
 	import AddMemberDialog from '$lib/AddMemberDialog.svelte';
 	import { getMemberAvatarURL } from '$lib/_modules/utils';
 	import Button, { Label } from '@smui/button';
-import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
+	import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 
 	// import user from '../_modules/user';
 
@@ -114,18 +114,18 @@ import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 <div class="mdc-typography--headline5">{store.groupInfo.name}</div>
 <Button on:click={() => (openViewBalancesDialog = true)} variant="unelevated">
 	<Label>balances</Label>
-  </Button>
+</Button>
 <br />
 <div class="mdc-typography--headline5">💸 group expenses</div>
 
 <List twoLine>
 	{#each expenses as [key, expense]}
-		<Item on:click={() => removeExpense(key)}>
+		<Item>
 			<Text>
 				<PrimaryText>{expense.title}</PrimaryText>
 				<SecondaryText>${expense.amount} by {expense.paidBy}</SecondaryText>
 			</Text>
-			<Meta class="material-icons">clear</Meta>
+			<Meta class="material-icons" on:click={() => removeExpense(key)}>clear</Meta>
 		</Item>
 	{/each}
 	{#if !expenses.length}
@@ -172,7 +172,11 @@ import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 	addCallback={addExpense}
 />
 
-<ViewBalancesDialog bind:openDialog={openViewBalancesDialog}/>
+<ViewBalancesDialog
+	bind:openDialog={openViewBalancesDialog}
+	expensesList={expenses}
+	membersList={members}
+/>
 
 <style>
 	.flexy {
