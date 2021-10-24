@@ -72,7 +72,6 @@ import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 			.get('groupInfo')
 			.get('name')
 			.on((data, key) => {
-				console.log(data, key);
 				if (data) {
 					// Updates the store with the new value
 					store.groupInfo.name = data;
@@ -129,7 +128,7 @@ import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 			<Meta class="material-icons">clear</Meta>
 		</Item>
 	{/each}
-	{#if !members.length}
+	{#if !expenses.length}
 		<Item disabled>
 			<Text>
 				<PrimaryText>nothing yet...</PrimaryText>

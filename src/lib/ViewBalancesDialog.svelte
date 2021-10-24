@@ -7,15 +7,11 @@
 	import Select, { Option } from '@smui/select';
 	import Icon from '@smui/select/icon';
 	import { Graphic } from '@smui/list';
-import { getMemberAvatarURL } from './_modules/utils';
+	import { getMemberAvatarURL } from './_modules/utils';
 
 	export let openDialog = false;
 	export let addCallback: Function = () => {};
 	export let membersList: Array<Array<string | object>> = [];
-
-	let inputName: string = '';
-	let inputAmount: number = 0.0;
-	let inputPaidBy: string = '';
 </script>
 
 <Dialog
@@ -105,21 +101,4 @@ import { getMemberAvatarURL } from './_modules/utils';
 		asdsadasasdsadasa
 		
 	</Content>
-	<Actions>
-		<Button>
-			<Label>cancel</Label>
-		</Button>
-		<Button
-			variant="unelevated"
-			disabled={inputName === '' || inputAmount === 0.0 || inputPaidBy === ''}
-			on:click={() => {
-				addCallback(inputName, inputAmount, inputPaidBy);
-				inputName = '';
-				inputAmount = 0.0;
-				inputPaidBy = '';
-			}}
-		>
-			<Label>add</Label>
-		</Button>
-	</Actions>
 </Dialog>
