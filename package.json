@@ -20,6 +20,7 @@
 		"@material/theme": "^11.0.0",
 		"@material/typography": "^11.0.0",
 		"@smui/button": "^5.0.0-beta.5",
+		"@smui/chips": "^5.0.0-beta.8",
 		"@smui/dialog": "^5.0.0-beta.7",
 		"@smui/fab": "^5.0.0-beta.7",
 		"@smui/icon-button": "^5.0.0-beta.7",

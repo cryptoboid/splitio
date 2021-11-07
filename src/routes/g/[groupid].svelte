@@ -19,8 +19,8 @@
 	import AddExpenseDialog from '$lib/AddExpenseDialog.svelte';
 	import AddMemberDialog from '$lib/AddMemberDialog.svelte';
 	import { getExpenseTimestamp, getMemberAvatarURL } from '$lib/_modules/utils';
-	import Button, { Label } from '@smui/button';
 	import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
+	import Chip, { Set, LeadingIcon, Text } from '@smui/chips';
 
 	// import user from '../_modules/user';
 
@@ -31,6 +31,15 @@
 	let openAddMemberDialog: boolean = false;
 	let openAddExpenseDialog: boolean = false;
 	let openViewBalancesDialog: boolean = false;
+
+	let chips = [
+		{
+			title: 'balances',
+			icon: 'balance',
+			onClick: () => (openViewBalancesDialog = true)
+		},
+		{ title: 'monthly stats', icon: 'event', onClick: () => {alert('soon!')} },
+	];
 
 	onMount(() => {
 		const appDB = initAppDB();
@@ -104,7 +113,7 @@
 	};
 
 	let store: object = { expenses: {}, members: {}, groupInfo: { name: '... loading' } };
-	$: expenses = Object.entries(store.expenses).sort((a,b) => (b[1].timestamp - a[1].timestamp));
+	$: expenses = Object.entries(store.expenses).sort((a, b) => b[1].timestamp - a[1].timestamp);
 	$: members = Object.entries(store.members);
 </script>
 
@@ -113,10 +122,14 @@
 </svelte:head>
 
 <div class="mdc-typography--headline5">{store.groupInfo.name}</div>
-<Button on:click={() => (openViewBalancesDialog = true)} variant="unelevated">
-	<Label>balances</Label>
-</Button>
-<br />
+
+<Set {chips} let:chip>
+	<Chip {chip} shouldRemoveOnTrailingIconClick={false} on:click={chip.onClick}>
+		<LeadingIcon class="material-icons">{chip.icon}</LeadingIcon>
+		<Text tabindex={0}>{chip.title}</Text>
+	</Chip>
+</Set>
+
 <div class="mdc-typography--headline5">💸 group expenses</div>
 
 <List twoLine>
