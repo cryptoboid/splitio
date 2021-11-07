@@ -18,7 +18,7 @@
 	import { initAppDB } from '$lib/_modules/initGun';
 	import AddExpenseDialog from '$lib/AddExpenseDialog.svelte';
 	import AddMemberDialog from '$lib/AddMemberDialog.svelte';
-	import { getMemberAvatarURL } from '$lib/_modules/utils';
+	import { getExpenseTimestamp, getMemberAvatarURL } from '$lib/_modules/utils';
 	import Button, { Label } from '@smui/button';
 	import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 
@@ -45,6 +45,7 @@
 					// Updates the store with the new value
 					store.expenses[key] = expense;
 					store.expenses[key].gunID = key;
+					store.expenses[key].timestamp = getExpenseTimestamp(expense);
 				} else {
 					// A key may contain a null value (if data has been deleted/set to null)
 					// if so, we remove the item from the store
@@ -103,7 +104,7 @@
 	};
 
 	let store: object = { expenses: {}, members: {}, groupInfo: { name: '... loading' } };
-	$: expenses = Object.entries(store.expenses);
+	$: expenses = Object.entries(store.expenses).sort((a,b) => (b[1].timestamp - a[1].timestamp));
 	$: members = Object.entries(store.members);
 </script>
 
