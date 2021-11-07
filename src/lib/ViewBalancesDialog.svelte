@@ -52,7 +52,7 @@
 					<Text>
 						<PrimaryText>{name}</PrimaryText>
 						<SecondaryText class={amount < 0 ? 'error-text' : 'success-text'}
-							>{amount < 0 ? 'owes' : 'receives'} ${Math.abs(amount)}</SecondaryText
+							>{amount < 0 ? 'owes' : 'receives'} ${Math.abs(amount.toFixed(2))}</SecondaryText
 						>
 					</Text>
 					<!-- <Meta class="material-icons">info</Meta> -->
