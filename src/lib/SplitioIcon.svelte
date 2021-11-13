@@ -10,7 +10,7 @@
 		use:Ripple={{ surface: true }}
 		tabindex="0"
 		style="display: flex; flex-direction: row; align-items: center;"
-        on:click={() => window.location.href="/"}
+		on:click={() => (window.location.href = '/')}
 	>
 		<img
 			src="https://static.thenounproject.com/png/1894381-84.png"
@@ -24,7 +24,11 @@
 		</TopTitle>
 	</div>
 {:else}
-	<div style="align-items: center; display: flex; flex-direction: column;">
+	<div
+		use:Ripple={{ surface: true }}
+		on:click={() => (window.location.href = '/')}
+		style="align-items: center; display: flex; flex-direction: column;"
+	>
 		<img src="https://static.thenounproject.com/png/1894381-84.png" height="90rem" alt="icon" />
 		<div class="logo-home">splitio</div>
 	</div>

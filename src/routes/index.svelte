@@ -8,9 +8,9 @@
 	import CreateGroupDialog from '$lib/CreateGroupDialog.svelte';
 	import { onMount } from 'svelte';
 	import { getSEA, initAppDB } from '$lib/_modules/initGun';
-	import { redirectToGroup } from '$lib/_modules/utils';
+	import { redirectToAbout, redirectToGroup } from '$lib/_modules/utils';
 	import { putSecure } from '$lib/_modules/secure';
-	import Group from '@smui/button/Group.svelte';
+	import IconButton from '@smui/icon-button/IconButton.svelte';
 
 	let groupValue = '';
 	let openCreateGroupDialog: boolean = false;
@@ -32,14 +32,13 @@
 
 	const createGroup = async (groupName: string) => {
 		const result = appDB.set({ expenses: {}, members: {}, groupInfo: {} });
-		const secretKey = '#'+(await SEA.pair()).priv;
+		const secretKey = '#' + (await SEA.pair()).priv;
 		const nodeid = result._.has;
 		console.log(result, result._.has);
 		let infoNode = appDB.get(nodeid).get('groupInfo');
 		putSecure(infoNode, { name: groupName }, secretKey, (ack) => {
 			if (!ack.err) redirectToGroup(nodeid, secretKey);
 		});
-		// appDB.get(nodeid).get('groupInfo').get('name').once((da) => console.log("NODENAME:", da));
 	};
 </script>
 
@@ -51,6 +50,11 @@
 	<div>
 		<SplitioIcon />
 	</div>
+	<IconButton
+		on:click={() => redirectToAbout()}
+		class="material-icons info-btn"
+		aria-label="Information">info</IconButton
+	>
 	<div class="group-text-container">
 		<Button
 			style="border-radius: 17px; margin: 1.5rem"
@@ -125,5 +129,11 @@
 	* :global(.solo-fab) {
 		flex-shrink: 0;
 		margin-top: 0rem;
+	}
+
+	* :global(.info-btn) {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
 	}
 </style>

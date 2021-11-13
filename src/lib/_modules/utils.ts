@@ -5,6 +5,10 @@ export function redirectToGroup(groupID : string, secretKey : string) {
     window.location.href = base + 'g/' + groupID + secretKey;
 }
 
+export function redirectToAbout() {
+    window.location.href = base + 'about';
+}
+
 export function getMemberAvatarURL(memberName : string, size : number = 40) {
     return `https://source.boringavatars.com/beam/${size}/${
         encodeURIComponent(memberName)
