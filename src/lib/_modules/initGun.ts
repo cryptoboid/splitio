@@ -1,5 +1,5 @@
 import Gun from 'gun';
-import 'gun/sea';
+import 'gun/sea/index.js';
 
 // console.log(Gun.SEA.encrypt('xdd', '#password'), Gun.SEA.pair());
 

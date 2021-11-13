@@ -18,7 +18,7 @@
 	import { getSEA, initAppDB } from '$lib/_modules/initGun';
 	import AddExpenseDialog from '$lib/AddExpenseDialog.svelte';
 	import AddMemberDialog from '$lib/AddMemberDialog.svelte';
-	import { getExpenseTimestamp, getMemberAvatarURL } from '$lib/_modules/utils';
+	import { getMemberAvatarURL } from '$lib/_modules/utils';
 	import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 	import Chip, { Set, LeadingIcon, Text as ChipText } from '@smui/chips';
 	import { onSecure, putSecure, setSecure } from '$lib/_modules/secure';
