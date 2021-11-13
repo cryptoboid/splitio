@@ -7,8 +7,10 @@
 	import Button, { Label } from '@smui/button';
 	import CreateGroupDialog from '$lib/CreateGroupDialog.svelte';
 	import { onMount } from 'svelte';
-	import { initAppDB } from '$lib/_modules/initGun';
+	import { getSEA, initAppDB } from '$lib/_modules/initGun';
 	import { redirectToGroup } from '$lib/_modules/utils';
+	import { putSecure } from '$lib/_modules/secure';
+	import Group from '@smui/button/Group.svelte';
 
 	let groupValue = '';
 	let openCreateGroupDialog: boolean = false;
@@ -21,22 +23,22 @@
 	}
 
 	let appDB: any = undefined;
+	let SEA: any = undefined;
 
 	onMount(() => {
 		appDB = initAppDB();
+		SEA = getSEA();
 	});
 
 	const createGroup = async (groupName: string) => {
 		const result = appDB.set({ expenses: {}, members: {}, groupInfo: {} });
+		const secretKey = '#'+(await SEA.pair()).priv;
 		const nodeid = result._.has;
 		console.log(result, result._.has);
-		appDB
-			.get(nodeid)
-			.get('groupInfo')
-			.get('name')
-			.put(groupName, (ack) => {
-				if (!ack.err) redirectToGroup(nodeid);
-			});
+		let infoNode = appDB.get(nodeid).get('groupInfo');
+		putSecure(infoNode, { name: groupName }, secretKey, (ack) => {
+			if (!ack.err) redirectToGroup(nodeid, secretKey);
+		});
 		// appDB.get(nodeid).get('groupInfo').get('name').once((da) => console.log("NODENAME:", da));
 	};
 </script>
@@ -69,7 +71,12 @@
 				class="solo-input"
 			/>
 		</Paper>
-		<Fab on:click={() => redirectToGroup(groupValue)} exited={groupValue === ''} color="secondary" class="solo-fab">
+		<Fab
+			on:click={() => redirectToGroup(groupValue)}
+			exited={groupValue === ''}
+			color="secondary"
+			class="solo-fab"
+		>
 			<Icon class="material-icons">arrow_forward</Icon>
 		</Fab>
 	</div>

@@ -1,4 +1,7 @@
 import Gun from 'gun';
+import 'gun/sea';
+
+// console.log(Gun.SEA.encrypt('xdd', '#password'), Gun.SEA.pair());
 
 export const initAppDB = () => {
     const GUN = Gun({
@@ -16,3 +19,7 @@ export const initAppDB = () => {
     });
     return GUN.get('splitio');
 }
+
+export const getSEA = () => {
+    return Gun.SEA
+};

@@ -15,18 +15,21 @@
 	import { onMount } from 'svelte';
 	import Fab, { Icon as FabIcon } from '@smui/fab';
 	import List, { Item, Text, PrimaryText, SecondaryText, Meta, Graphic } from '@smui/list';
-	import { initAppDB } from '$lib/_modules/initGun';
+	import { getSEA, initAppDB } from '$lib/_modules/initGun';
 	import AddExpenseDialog from '$lib/AddExpenseDialog.svelte';
 	import AddMemberDialog from '$lib/AddMemberDialog.svelte';
 	import { getExpenseTimestamp, getMemberAvatarURL } from '$lib/_modules/utils';
 	import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
-	import Chip, { Set, LeadingIcon, Text } from '@smui/chips';
+	import Chip, { Set, LeadingIcon, Text as ChipText } from '@smui/chips';
+	import { onSecure, putSecure, setSecure } from '$lib/_modules/secure';
 
 	// import user from '../_modules/user';
 
 	export let groupId: string;
 
 	let groupDB: any = undefined;
+	let SEA: any = undefined;
+	let secretKey: string = "";
 
 	let openAddMemberDialog: boolean = false;
 	let openAddExpenseDialog: boolean = false;
@@ -38,70 +41,66 @@
 			icon: 'balance',
 			onClick: () => (openViewBalancesDialog = true)
 		},
-		{ title: 'monthly stats', icon: 'event', onClick: () => {alert('soon!')} },
+		{
+			title: 'monthly stats',
+			icon: 'event',
+			onClick: () => {
+				alert('soon!');
+			}
+		}
 	];
 
 	onMount(() => {
 		const appDB = initAppDB();
+		SEA = getSEA();
+		secretKey = window.location.hash;
 		const GROUPID = groupId || 'unknown group';
 		groupDB = appDB.get(GROUPID);
 
-		groupDB
-			.get('expenses')
-			.map()
-			.on(async function (expense, key) {
-				if (expense && typeof expense === 'object') {
-					// Updates the store with the new value
-					store.expenses[key] = expense;
-					store.expenses[key].gunID = key;
-					store.expenses[key].timestamp = getExpenseTimestamp(expense);
-				} else {
-					// A key may contain a null value (if data has been deleted/set to null)
-					// if so, we remove the item from the store
-					delete store.expenses[key];
-					store.expenses = store.expenses;
-				}
-			});
+		onSecure(
+			groupDB.get('expenses').map(),
+			secretKey,
+			(plain, key) => (store.expenses[key] = plain),
+			(key) => {
+				delete store.expenses[key];
+				store.expenses = store.expenses;
+			}
+		);
 
-		groupDB
-			.get('members')
-			.map()
-			.on((member, key) => {
-				if (member) {
-					// Updates the store with the new value
-					store.members[key] = member;
-				} else {
-					// A key may contain a null value (if data has been deleted/set to null)
-					// if so, we remove the item from the store
-					delete store.members[key];
-					store.members = store.members;
-				}
-			});
+		onSecure(
+			groupDB.get('members').map(),
+			secretKey,
+			(plain, key) => (store.members[plain.name] = plain),
+			(key) => {
+				delete store.members[key];
+				store.members = store.members;
+			}
+		);
 
-		groupDB
-			.get('groupInfo')
-			.get('name')
-			.on((data, key) => {
-				if (data) {
-					// Updates the store with the new value
-					store.groupInfo.name = data;
-				} else {
-					// A key may contain a null value (if data has been deleted/set to null)
-					// if so, we remove the item from the store
-					delete store.groupInfo[key];
-					store.groupInfo = store.groupInfo;
-				}
-			});
+		onSecure(
+			groupDB.get('groupInfo'),
+			secretKey,
+			(plain, key) => (store.groupInfo.name = plain.name),
+			(key) => {
+				delete store.groupInfo[key];
+				store.groupInfo = store.groupInfo;
+			}
+		);
 	});
 
 	const addExpense = async (expenseName: string, expenseAmount: number, memberName: string) => {
 		const memberExists = memberName in store.members;
 		if (!memberExists) throw SyntaxError;
-		groupDB.get('expenses').set({
-			title: expenseName,
-			amount: expenseAmount,
-			paidBy: memberName
-		});
+		setSecure(
+			groupDB.get('expenses'),
+			{
+				title: expenseName,
+				amount: expenseAmount,
+				paidBy: memberName,
+				timestamp: Date.now()
+			},
+			secretKey
+		);
 	};
 
 	const removeExpense = (key: string) => {
@@ -109,7 +108,8 @@
 	};
 
 	const addMember = (memberName: string) => {
-		groupDB.get('members').get(memberName).put({ name: memberName });
+		setSecure(groupDB.get('members'), { name: memberName }, secretKey);
+		// groupDB.get('members').get(memberName).put({ name: memberName });
 	};
 
 	let store: object = { expenses: {}, members: {}, groupInfo: { name: '... loading' } };
@@ -126,7 +126,7 @@
 <Set {chips} let:chip>
 	<Chip {chip} shouldRemoveOnTrailingIconClick={false} on:click={chip.onClick}>
 		<LeadingIcon class="material-icons">{chip.icon}</LeadingIcon>
-		<Text tabindex={0}>{chip.title}</Text>
+		<ChipText tabindex={0}>{chip.title}</ChipText>
 	</Chip>
 </Set>
 
