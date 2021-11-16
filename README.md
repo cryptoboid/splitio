@@ -45,7 +45,8 @@ some extra desired features/fixes are:
 - compute who-owes-what
 - add settlments
 - calculate monthly stats (expenses amount in last 30 days)
-- favorite a group for easy access in webapp (or provide shortcuts)
+- allow changing currency symbol ($, €, ¥, etc)
+- ~~favorite a group for easy access in PWA (or provide some kind of shortcut)~~ (disabled PWA for now)
 - ... and more!
 
 ## ❤️ contribute
