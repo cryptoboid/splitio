@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Title as TopTitle } from '@smui/top-app-bar';
 	import Ripple from '@smui/ripple';
+	import { base } from '$app/paths';
 
 	export let isTopApp = false;
 </script>
@@ -12,14 +13,8 @@
 		style="display: flex; flex-direction: row; align-items: center;"
 		on:click={() => (window.location.href = '/')}
 	>
-		<img
-			src="https://static.thenounproject.com/png/1894381-84.png"
-			height="36px"
-			alt="icon"
-			style="margin-left: 5px"
-			href="/"
-		/>
-		<TopTitle style="font-family: Josefin Sans;font-size: x-large;margin-left: -17px;">
+		<img src={base + "/static/logo_black.png"} height="27px" alt="icon" style="margin-left: 10px" href="/" />
+		<TopTitle style="font-family: Josefin Sans;font-size: x-large;margin-left: -13px;">
 			splitio
 		</TopTitle>
 	</div>
@@ -29,7 +24,7 @@
 		on:click={() => (window.location.href = '/')}
 		style="align-items: center; display: flex; flex-direction: column;"
 	>
-		<img src="https://static.thenounproject.com/png/1894381-84.png" height="90rem" alt="icon" />
+		<img src={base + "/static/logo_black.png"} height="70rem" style="margin-bottom: 10px;" alt="icon" />
 		<div class="logo-home">splitio</div>
 	</div>
 {/if}

@@ -18,7 +18,7 @@
 	function handleKeyDown(event: CustomEvent | KeyboardEvent) {
 		event = event as KeyboardEvent;
 		if (event.key === 'Enter') {
-			redirectToGroup(groupValue);
+			redirectToGroup(groupValue, window.location.hash);
 		}
 	}
 
@@ -76,7 +76,7 @@
 			/>
 		</Paper>
 		<Fab
-			on:click={() => redirectToGroup(groupValue)}
+			on:click={() => redirectToGroup(groupValue, window.location.hash)}
 			exited={groupValue === ''}
 			color="secondary"
 			class="solo-fab"

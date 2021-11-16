@@ -46,14 +46,14 @@ some extra desired features/fixes are:
 - add settlments
 - calculate monthly stats (expenses amount in last 30 days)
 - favorite a group for easy access in webapp (or provide shortcuts)
-
+- ... and more!
 
 ## ❤️ contribute
 
 1. clone repo
 2. install npm packages: `npm install`
 3. start the server (with hot reloading): `npm run dev`
-4. navigate to [localhost:5000](http://localhost:5000)
+4. navigate to [localhost:3000](http://localhost:5000)
 
 ## ⚖️ license
 

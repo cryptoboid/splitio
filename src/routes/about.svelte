@@ -13,7 +13,7 @@
 		<SplitioIcon />
 	</div>
 	<div class="group-text-container">
-		<Paper class="paper-demo">
+		<Paper class="paper-demo" elevation={5}>
 			<Title>ℹ️ about</Title>
 			<Content>
 				split your bills easily! splitio is an open-source webapp built for tracking debts and
