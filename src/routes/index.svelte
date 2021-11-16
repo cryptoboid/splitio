@@ -11,9 +11,12 @@
 	import { redirectToAbout, redirectToGroup } from '$lib/_modules/utils';
 	import { putSecure } from '$lib/_modules/secure';
 	import IconButton from '@smui/icon-button/IconButton.svelte';
+	import type { IGunStaticSEA } from 'gun/types/static/sea';
+	import CircularProgress from '@smui/circular-progress';
 
 	let groupValue = '';
 	let openCreateGroupDialog: boolean = false;
+	let hideLoadingSpinner: boolean = true;
 
 	function handleKeyDown(event: CustomEvent | KeyboardEvent) {
 		event = event as KeyboardEvent;
@@ -23,7 +26,7 @@
 	}
 
 	let appDB: any = undefined;
-	let SEA: any = undefined;
+	let SEA: IGunStaticSEA | undefined = undefined;
 
 	onMount(() => {
 		appDB = initAppDB();
@@ -31,13 +34,19 @@
 	});
 
 	const createGroup = async (groupName: string) => {
+		hideLoadingSpinner = false;
 		const result = appDB.set({ expenses: {}, members: {}, groupInfo: {} });
 		const secretKey = '#' + (await SEA.pair()).priv;
 		const nodeid = result._.has;
 		console.log(result, result._.has);
 		let infoNode = appDB.get(nodeid).get('groupInfo');
 		putSecure(infoNode, { name: groupName }, secretKey, (ack) => {
-			if (!ack.err) redirectToGroup(nodeid, secretKey);
+			if (!ack.err) {
+				redirectToGroup(nodeid, secretKey);
+			} else {
+				alert('error creating group :( please try again. code: ' + ack.err);
+				hideLoadingSpinner = true;
+			}
 		});
 	};
 </script>
@@ -86,9 +95,34 @@
 	</div>
 </div>
 
+
+<!-- Loading overlay -->
+<div class="black-overlay" hidden={hideLoadingSpinner}>
+	<div class="fixed-center">
+		<CircularProgress
+			style="height: 100px; width: 100px;"
+			indeterminate
+			class="create-group-loading"
+		/>
+	</div>
+</div>
+
 <CreateGroupDialog bind:openDialog={openCreateGroupDialog} addCallback={createGroup} />
 
 <style>
+	.fixed-center {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	.black-overlay {
+		height: 100%;
+		width: 100%;
+		background: rgba(0, 0, 0, 0.6);
+		position: fixed;
+		top: 0;
+	}
 	.homepage-container {
 		min-height: 100vh;
 		display: flex;
