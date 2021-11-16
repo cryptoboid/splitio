@@ -25,16 +25,17 @@ built with SvelteKit and GunDB.
 </p>
 
 ## 🌟 showcase
-<table align="center">
+<table>
 <tr>
-<img width="31%" src="./screenshots/screen1.png"/>
-<img width="31%" src="./screenshots/screen4.png"/>
-<img width="31%" src="./screenshots/screen6.png"/>
+    <a href=""><img width="21%" src="./screenshots/screen1.png"/></a>
+    <a href=""><img width="21%" src="./screenshots/screen4.png"/></a>
+    <a href=""><img width="21%" src="./screenshots/screen6.png"/></a>
+    <div/>
 </tr>
 <tr>
-<img width="31%" src="./screenshots/screen2.png"/>
-<img width="31%" src="./screenshots/screen3.png"/>
-<img width="31%" src="./screenshots/screen5.png"/>
+    <a href=""><img width="21%" src="./screenshots/screen2.png"/></a>
+    <a href=""><img width="21%" src="./screenshots/screen3.png"/></a>
+    <a href=""><img width="21%" src="./screenshots/screen5.png"/></a>
 </tr>
 </table>
 
