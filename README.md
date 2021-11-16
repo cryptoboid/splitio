@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img alt="splitio" height="100" src="./static/favicon.png">
+    <img alt="splitio" height="75" src="./static/favicon.png">
     <h1 align="center">splitio</h1>
 </p>
 
