@@ -43,7 +43,7 @@ built with SvelteKit and GunDB.
 
 some extra desired features/fixes are:
 - compute who-owes-what
-- add settlments
+- add settlements
 - calculate monthly stats (expenses amount in last 30 days)
 - allow changing currency symbol ($, €, ¥, etc)
 - ~~favorite a group for easy access in PWA (or provide some kind of shortcut)~~ (disabled PWA for now)

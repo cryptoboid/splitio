@@ -171,7 +171,7 @@
 <div class="flexy">
 	<div class="margins">
 		<Fab style="border-radius: 17px;" on:click={() => (openAddExpenseDialog = true)}>
-			<FabIcon class="material-icons">add</FabIcon>
+			<FabIcon class="material-icons">post_add</FabIcon>
 		</Fab>
 	</div>
 </div>
