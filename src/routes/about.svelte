@@ -19,7 +19,7 @@
 				split your bills easily! splitio is an open-source webapp built for tracking debts and
 				payments quickly, without any user accounts. <br /> <br />
 
-				built with SvelteKit and GunDB.
+				built by cryptoboid with SvelteKit and GunDB.
 
 				<Button
 					on:click={() => {}}
