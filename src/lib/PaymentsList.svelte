@@ -4,7 +4,7 @@
 	export let pendingPayments = [];
 </script>
 
-<List twoLine style="margin-left: 50px">
+<List twoLine style="margin-left: 30px; margin-bottom: 10px;">
 	{#if pendingPayments.length === 0}
 		<Item disabled>
 			<Text>
