@@ -42,7 +42,7 @@ built with SvelteKit and GunDB.
 ## 📝 next steps
 
 some extra desired features/fixes are:
-- compute who-owes-what
+- ~~compute who-owes-what~~ (done!)
 - add settlements
 - calculate monthly stats (expenses amount in last 30 days)
 - allow changing currency symbol ($, €, ¥, etc)
