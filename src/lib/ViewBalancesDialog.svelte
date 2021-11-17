@@ -2,36 +2,29 @@
 	import Dialog, { Header, Title, Content } from '@smui/dialog';
 	import IconButton from '@smui/icon-button';
 	import List, { Item, Text, PrimaryText, SecondaryText, Meta, Graphic } from '@smui/list';
-	import { getMemberAvatarURL } from './_modules/utils';
+	import PaymentsList from './PaymentsList.svelte';
+	import { computeBalances, computePayments } from './_modules/money';
+	import { absRounded, getMemberAvatarURL } from './_modules/utils';
 
 	export let openDialog = false;
 	export let membersList: Array<Array<string | object>> = [];
 	export let expensesList: Array<Array<string | object>> = [];
 
-	const computeBalances = (allexpenses, allMembers) => {
-		if (!allexpenses || allMembers.length === 0) return [];
-		// console.log(allMembers);
-		let total = allexpenses.map((x) => x[1].amount).reduce((a, b) => a + b, 0);
-		let numMembers = allMembers.length;
-		let eachUserBalance = {};
-
-		for (const member of allMembers) {
-			eachUserBalance[member[0]] = 0;
+	const initExpMembers = (membersList) => {
+		let result = {};
+		for (const member of membersList) {
+			result[member[0]] = false;
 		}
+		return result;
+	};
 
-		for (const expense of allexpenses) {
-			let payer = expense[1].paidBy;
-			eachUserBalance[payer] += expense[1].amount;
-		}
-
-		for (let [usr, balance] of Object.entries(eachUserBalance)) {
-			eachUserBalance[usr] = balance - total / numMembers;
-		}
-
-		return Object.entries(eachUserBalance);
+	const toggleDebtsForMember = (name: string): void => {
+		expandedMembers[name] = !expandedMembers[name];
 	};
 
 	$: balances = computeBalances(expensesList, membersList);
+	$: payments = computePayments(balances);
+	$: expandedMembers = initExpMembers(membersList);
 </script>
 
 <Dialog
@@ -47,45 +40,20 @@
 	<Content id="default-focus-content">
 		<List twoLine avatarList style="margin-bottom: 70px;">
 			{#each balances as [name, amount]}
-				<Item>
+				<Item on:click={() => toggleDebtsForMember(name)}>
 					<Graphic style="background-image: url({getMemberAvatarURL(name)});" />
 					<Text>
 						<PrimaryText>{name}</PrimaryText>
 						<SecondaryText class={amount < 0 ? 'error-text' : 'success-text'}
-							>{amount < 0 ? 'owes' : 'receives'} ${Math.abs(amount.toFixed(2))}</SecondaryText
+							>{amount < 0 ? 'owes' : 'receives'} ${absRounded(amount)}</SecondaryText
 						>
 					</Text>
-					<!-- <Meta class="material-icons">info</Meta> -->
+					<Meta class="material-icons">{expandedMembers[name] ? "expand_less" : "expand_more"}</Meta>
 				</Item>
+				{#if expandedMembers[name]}
+					<PaymentsList pendingPayments={payments[name]}/>
+				{/if}
 			{/each}
 		</List>
-
-		<!-- <LayoutGrid>
-			<Cell span={12}>
-				enter a description:
-				<Textfield bind:value={inputName} />
-			</Cell>
-			<Cell span={12}>
-				enter the $ amount:
-				<Textfield type="number" bind:value={inputAmount} />
-			</Cell>
-			<Cell span={12}>
-				who payed?
-				<Select bind:value={inputPaidBy}>
-					<Icon
-						slot="leadingIcon"
-						style="background-image: url({getMemberAvatarURL(inputPaidBy, 24)});"
-					/>
-					<Option value="" />
-					{#each membersList as [key, member]}
-						<Option value={member.name}>
-							<Graphic
-								style="background-image: url({getMemberAvatarURL(member.name, 24)});"
-							/>{member.name}</Option
-						>
-					{/each}
-				</Select>
-			</Cell>
-		</LayoutGrid> -->
 	</Content>
 </Dialog>

@@ -112,7 +112,7 @@
 		// groupDB.get('members').get(memberName).put({ name: memberName });
 	};
 
-	let store: object = { expenses: {}, members: {}, groupInfo: { name: '... loading' } };
+	let store: object = { expenses: {}, members: {}, groupInfo: { name: 'loading...' } };
 	$: expenses = Object.entries(store.expenses).sort((a, b) => b[1].timestamp - a[1].timestamp);
 	$: members = Object.entries(store.members);
 </script>

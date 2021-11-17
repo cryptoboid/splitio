@@ -6,7 +6,6 @@
 	import SplitioIcon from '$lib/SplitioIcon.svelte';
 	import Button, { Label } from '@smui/button';
 	import CreateGroupDialog from '$lib/CreateGroupDialog.svelte';
-	import { onMount } from 'svelte';
 	import { getSEA, initAppDB } from '$lib/_modules/initGun';
 	import { redirectToAbout, redirectToGroup } from '$lib/_modules/utils';
 	import { putSecure } from '$lib/_modules/secure';
@@ -28,11 +27,11 @@
 	let appDB: any = undefined;
 	let SEA: IGunStaticSEA | undefined = undefined;
 
-	onMount(() => {
-		appDB = initAppDB();
-		SEA = getSEA();
-	});
-
+	const initGunIfNew = () => {
+		if (!appDB) appDB = initAppDB();
+		if (!SEA) SEA = getSEA();
+	}
+	
 	const createGroup = async (groupName: string) => {
 		hideLoadingSpinner = false;
 		const result = appDB.set({ expenses: {}, members: {}, groupInfo: {} });
@@ -69,7 +68,7 @@
 			style="border-radius: 17px; margin: 1.5rem"
 			variant="raised"
 			color="secondary"
-			on:click={() => (openCreateGroupDialog = true)}
+			on:click={() => {openCreateGroupDialog = true; initGunIfNew()}}
 		>
 			<Icon class="material-icons">add</Icon>
 			<Label>create group</Label>

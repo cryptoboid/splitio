@@ -1,12 +1,14 @@
-import {base} from '$app/paths';
+import {goto} from '$app/navigation';
 import GUN from 'gun';
 
 export function redirectToGroup(groupID : string, secretKey : string) {
-    window.location.href = base + 'g/' + groupID + secretKey;
+    goto('/g/' + groupID + secretKey)
+    // window.location.href = base +
 }
 
 export function redirectToAbout() {
-    window.location.href = base + 'about';
+    goto('/about')
+    // window.location.href = base + 'about';
 }
 
 export function getMemberAvatarURL(memberName : string, size : number = 40) {
@@ -17,4 +19,8 @@ export function getMemberAvatarURL(memberName : string, size : number = 40) {
 
 export function getExpenseTimestamp(expenseObject : any) {
     return GUN.state.is(expenseObject, 'amount'); // get the internal timestamp for the amount property.
+}
+
+export function absRounded(num : number): string {
+    return Math.abs(num).toFixed(2);
 }
