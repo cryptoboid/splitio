@@ -159,7 +159,7 @@
 		<Item>
 			<Graphic style="background-image: url({getMemberAvatarURL(member.name)});" />
 			<Text>{member.name}</Text>
-			<Meta class="material-icons">info</Meta>
+			<!-- <Meta class="material-icons">info</Meta> -->
 		</Item>
 	{/each}
 	<Item on:click={() => (openAddMemberDialog = true)}>
