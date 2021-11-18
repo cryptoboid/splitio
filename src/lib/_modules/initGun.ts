@@ -1,7 +1,7 @@
 import Gun from 'gun';
 import 'gun/sea.js';
 import 'gun/lib/radix.js';
-import 'gun/lib/radisk';
+import 'gun/lib/radisk.js';
 import 'gun/lib/store.js';
 import 'gun/lib/rindexed.js';
 
