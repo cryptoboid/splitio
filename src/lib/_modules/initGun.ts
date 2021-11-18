@@ -1,5 +1,9 @@
 import Gun from 'gun';
 import 'gun/sea.js';
+import 'gun/lib/radix.js';
+import 'gun/lib/radisk';
+import 'gun/lib/store.js';
+import 'gun/lib/rindexed.js';
 
 // console.log(Gun.SEA.encrypt('xdd', '#password'), Gun.SEA.pair());
 
