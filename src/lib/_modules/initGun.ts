@@ -1,11 +1,12 @@
 import Gun from 'gun';
 import 'gun/sea.js';
-import 'gun/lib/radix.js';
-import 'gun/lib/radisk.js';
-import 'gun/lib/store.js';
-import 'gun/lib/rindexed.js';
 
-// console.log(Gun.SEA.encrypt('xdd', '#password'), Gun.SEA.pair());
+// Crashes for some users in Chrome Android :(
+// Disabling for now
+// import 'gun/lib/radix.js';
+// import 'gun/lib/radisk.js';
+// import 'gun/lib/store.js';
+// import 'gun/lib/rindexed.js';
 
 export const initAppDB = () => {
     const GUN = Gun({
