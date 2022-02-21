@@ -24,3 +24,7 @@ export function getExpenseTimestamp(expenseObject : any) {
 export function absRounded(num : number): string {
     return Math.abs(num).toFixed(2);
 }
+
+export function timestampToShortDate(timestamp: number) {
+    return ((new Date(timestamp)).toLocaleString('en', { month: 'short', day: 'numeric' })).split().join('<br/>');
+}

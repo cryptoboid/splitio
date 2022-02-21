@@ -18,7 +18,7 @@
 	import { getSEA, initAppDB } from '$lib/_modules/initGun';
 	import AddExpenseDialog from '$lib/AddExpenseDialog.svelte';
 	import AddMemberDialog from '$lib/AddMemberDialog.svelte';
-	import { getMemberAvatarURL } from '$lib/_modules/utils';
+	import { getMemberAvatarURL, timestampToShortDate } from '$lib/_modules/utils';
 	import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 	import Chip, { Set, LeadingIcon, Text as ChipText } from '@smui/chips';
 	import { onSecure, putSecure, setSecure } from '$lib/_modules/secure';
@@ -29,7 +29,7 @@
 
 	let groupDB: any = undefined;
 	let SEA: any = undefined;
-	let secretKey: string = "";
+	let secretKey: string = '';
 
 	let openAddMemberDialog: boolean = false;
 	let openAddExpenseDialog: boolean = false;
@@ -132,9 +132,12 @@
 
 <div class="mdc-typography--headline5">💸 group expenses</div>
 
-<List twoLine>
+<List twoLine avatarList>
 	{#each expenses as [key, expense]}
 		<Item>
+			<Graphic style="text-align: center; width: 2rem;">
+				{timestampToShortDate(expense.timestamp)}
+			</Graphic>
 			<Text>
 				<PrimaryText>{expense.title}</PrimaryText>
 				<SecondaryText>${expense.amount} by {expense.paidBy}</SecondaryText>
