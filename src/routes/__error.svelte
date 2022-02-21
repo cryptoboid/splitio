@@ -3,7 +3,8 @@
 	export function load({ error, status }) {
 		return {
 			props: {
-				errorMsg: `${status} ${error.message}`
+				message: error.message,
+				status
 			}
 		};
 	}
@@ -11,10 +12,10 @@
 
 <script lang="ts">
 	import SplitioIcon from '$lib/SplitioIcon.svelte';
-	import { redirectToHome } from '$lib/_modules/utils';
 	import Button, { Label, Icon } from '@smui/button';
 	import Paper, { Title, Content } from '@smui/paper';
-	export let errorMsg: string = '';
+	export let message: string = '';
+	export let status: string = '';
 </script>
 
 <svelte:head>
@@ -29,14 +30,9 @@
 		<Paper class="paper-demo" elevation={5}>
 			<Title>😞 error</Title>
 			<Content>
-				message: {errorMsg}
-
-				<Button
-                    href="/"
-					variant="raised"
-					style="display: flex; margin-top: 1rem"
-					color="secondary"
-				>
+				{message}
+				<p class="mdc-typography--subtitle2" style="margin: 0; color: #888;">status: {status}</p>
+				<Button href="/" variant="raised" style="display: flex; margin-top: 1rem" color="secondary">
 					<Icon class="material-icons">home</Icon>
 					<Label>Return home</Label>
 				</Button>
