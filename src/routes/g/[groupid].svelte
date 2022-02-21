@@ -135,7 +135,7 @@
 <List twoLine avatarList>
 	{#each expenses as [key, expense]}
 		<Item>
-			<Graphic style="text-align: center; width: 2rem;">
+			<Graphic style="text-align: center; width: 1.75rem;">
 				{timestampToShortDate(expense.timestamp)}
 			</Graphic>
 			<Text>
