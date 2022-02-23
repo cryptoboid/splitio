@@ -1,14 +1,16 @@
 <script lang="ts">
 	import Dialog, { Header, Title, Content } from '@smui/dialog';
 	import IconButton from '@smui/icon-button';
-	import List, { Item, Text, PrimaryText, SecondaryText, Meta, Graphic } from '@smui/list';
+	import List from '@smui/list';
+	import BalancesListItem from './BalancesListItem.svelte';
 	import PaymentsList from './PaymentsList.svelte';
+	import RecordPaymentDialog from './RecordPaymentDialog.svelte';
 	import { computeBalances, computePayments } from './_modules/money';
-	import { absRounded, getMemberAvatarURL } from './_modules/utils';
 
 	export let openDialog = false;
 	export let membersList: Array<Array<string | object>> = [];
-	export let expensesList: Array<Array<string | object>> = [];
+	export let expensesObj: object = {};
+	export let paymentsObj: object = {};
 
 	const initExpMembers = (membersList) => {
 		let result = {};
@@ -22,9 +24,23 @@
 		expandedMembers[name] = !expandedMembers[name];
 	};
 
-	$: balances = computeBalances(expensesList, membersList);
+	$: balances = computeBalances(expensesObj, membersList, paymentsObj);
 	$: payments = computePayments(balances);
 	$: expandedMembers = initExpMembers(membersList);
+
+	// Record Payments Dialog variables
+
+	let openRecordPayment = false;
+	let receiverName = '';
+	let debtAmount = 0.0;
+	let payerName = '';
+
+	const showRecordPaymentDialog = (rcvrName: string, debtAmnt: number, pyrName: string) => {
+		receiverName = rcvrName;
+		debtAmount = debtAmnt;
+		payerName = pyrName;
+		openRecordPayment = true;
+	};
 </script>
 
 <Dialog
@@ -39,21 +55,29 @@
 	</Header>
 	<Content id="default-focus-content">
 		<List twoLine avatarList style="margin-bottom: 70px;">
-			{#each balances as [name, amount]}
-				<Item on:click={() => toggleDebtsForMember(name)}>
-					<Graphic style="background-image: url({getMemberAvatarURL(name)});" />
-					<Text>
-						<PrimaryText>{name}</PrimaryText>
-						<SecondaryText class={amount < 0 ? 'error-text' : 'success-text'}
-							>{amount < 0 ? 'owes' : 'receives'} ${absRounded(amount)}</SecondaryText
-						>
-					</Text>
-					<Meta class="material-icons">{expandedMembers[name] ? "expand_less" : "expand_more"}</Meta>
-				</Item>
-				{#if expandedMembers[name]}
-					<PaymentsList pendingPayments={payments[name]}/>
+			{#each balances as [payerName, amount]}
+				<BalancesListItem
+					isExpanded={expandedMembers[payerName]}
+					{payerName}
+					{amount}
+					onClickCallback={() => toggleDebtsForMember(payerName)}
+				/>
+				{#if expandedMembers[payerName]}
+					<PaymentsList
+						showRecordPaymentCallback={showRecordPaymentDialog}
+						pendingPayments={payments[payerName]}
+						{payerName}
+					/>
 				{/if}
 			{/each}
 		</List>
 	</Content>
+
+	<RecordPaymentDialog
+		slot="over"
+		bind:openDialog={openRecordPayment}
+		{receiverName}
+		{debtAmount}
+		{payerName}
+	/>
 </Dialog>

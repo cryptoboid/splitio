@@ -21,15 +21,15 @@
 	import { getMemberAvatarURL, timestampToShortDate } from '$lib/_modules/utils';
 	import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 	import Chip, { Set, LeadingIcon, Text as ChipText } from '@smui/chips';
-	import { onSecure, putSecure, setSecure } from '$lib/_modules/secure';
-
-	// import user from '../_modules/user';
+	import { onSecure, setSecure } from '$lib/_modules/secure';
+	import { secretKey, groupDB, groupStore } from '$lib/_modules/stores';
+import TransactionListItem from '$lib/TransactionListItem.svelte';
 
 	export let groupId: string;
 
-	let groupDB: any = undefined;
+	// let groupDB: any = undefined;
 	let SEA: any = undefined;
-	let secretKey: string = '';
+	// let secretKey: string = '';
 
 	let openAddMemberDialog: boolean = false;
 	let openAddExpenseDialog: boolean = false;
@@ -53,75 +53,81 @@
 	onMount(() => {
 		const appDB = initAppDB();
 		SEA = getSEA();
-		secretKey = window.location.hash;
+		$secretKey = window.location.hash;
 		const GROUPID = groupId || 'unknown group';
-		groupDB = appDB.get(GROUPID);
+		$groupDB = appDB.get(GROUPID);
 
 		onSecure(
-			groupDB.get('expenses').map(),
-			secretKey,
-			(plain, key) => (store.expenses[key] = plain),
+			$groupDB.get('expenses').map(),
+			$secretKey,
+			(plain, key) => ($groupStore.expenses[key] = plain),
 			(key) => {
-				delete store.expenses[key];
-				store.expenses = store.expenses;
+				delete $groupStore.expenses[key];
+				$groupStore.expenses = $groupStore.expenses;
 			}
 		);
 
 		onSecure(
-			groupDB.get('members').map(),
-			secretKey,
-			(plain, key) => (store.members[plain.name] = plain),
+			$groupDB.get('members').map(),
+			$secretKey,
+			(plain, key) => ($groupStore.members[plain.name] = plain),
 			(key) => {
-				delete store.members[key];
-				store.members = store.members;
+				delete $groupStore.members[key];
+				$groupStore.members = $groupStore.members;
 			}
 		);
 
 		onSecure(
-			groupDB.get('groupInfo'),
-			secretKey,
-			(plain, key) => (store.groupInfo.name = plain.name),
+			$groupDB.get('groupInfo'),
+			$secretKey,
+			(plain, key) => ($groupStore.groupInfo.name = plain.name),
 			(key) => {
-				delete store.groupInfo[key];
-				store.groupInfo = store.groupInfo;
+				delete $groupStore.groupInfo[key];
+				$groupStore.groupInfo = $groupStore.groupInfo;
+			}
+		);
+
+		onSecure(
+			$groupDB.get('payments').map(),
+			$secretKey,
+			(plain, key) => ($groupStore.payments[key] = plain),
+			(key) => {
+				delete $groupStore.payments[key];
+				$groupStore.payments = $groupStore.payments;
 			}
 		);
 	});
 
 	const addExpense = async (expenseName: string, expenseAmount: number, memberName: string) => {
-		const memberExists = memberName in store.members;
+		const memberExists = memberName in $groupStore.members;
 		if (!memberExists) throw SyntaxError;
 		setSecure(
-			groupDB.get('expenses'),
+			$groupDB.get('expenses'),
 			{
 				title: expenseName,
 				amount: expenseAmount,
 				paidBy: memberName,
 				timestamp: Date.now()
 			},
-			secretKey
+			$secretKey
 		);
 	};
 
-	const removeExpense = (key: string) => {
-		groupDB.get('expenses').get(key).put(null);
-	};
-
 	const addMember = (memberName: string) => {
-		setSecure(groupDB.get('members'), { name: memberName }, secretKey);
-		// groupDB.get('members').get(memberName).put({ name: memberName });
+		setSecure($groupDB.get('members'), { name: memberName }, $secretKey);
 	};
 
-	let store: object = { expenses: {}, members: {}, groupInfo: { name: 'loading...' } };
-	$: expenses = Object.entries(store.expenses).sort((a, b) => b[1].timestamp - a[1].timestamp);
-	$: members = Object.entries(store.members);
+	$: transactions = Object.entries({ ...$groupStore.expenses, ...$groupStore.payments }).sort(
+		(a, b) => b[1].timestamp - a[1].timestamp
+	);
+	$: members = Object.entries($groupStore.members);
 </script>
 
 <svelte:head>
-	<title>splitio | {store.groupInfo.name}</title>
+	<title>splitio | {$groupStore.groupInfo.name}</title>
 </svelte:head>
 
-<div class="mdc-typography--headline5">{store.groupInfo.name}</div>
+<div class="mdc-typography--headline5">{$groupStore.groupInfo.name}</div>
 
 <Set {chips} let:chip>
 	<Chip {chip} shouldRemoveOnTrailingIconClick={false} on:click={chip.onClick}>
@@ -130,22 +136,13 @@
 	</Chip>
 </Set>
 
-<div class="mdc-typography--headline5">💸 group expenses</div>
+<div class="mdc-typography--headline5">💸 group transactions</div>
 
 <List twoLine avatarList>
-	{#each expenses as [key, expense]}
-		<Item>
-			<Graphic style="text-align: center; width: 1.75rem;">
-				{timestampToShortDate(expense.timestamp)}
-			</Graphic>
-			<Text>
-				<PrimaryText>{expense.title}</PrimaryText>
-				<SecondaryText>${expense.amount} by {expense.paidBy}</SecondaryText>
-			</Text>
-			<Meta class="material-icons" on:click={() => removeExpense(key)}>clear</Meta>
-		</Item>
+	{#each transactions as [key, transaction]}
+		<TransactionListItem {key} {transaction} />
 	{/each}
-	{#if !expenses.length}
+	{#if !transactions.length}
 		<Item disabled>
 			<Text>
 				<PrimaryText>nothing yet...</PrimaryText>
@@ -191,7 +188,8 @@
 
 <ViewBalancesDialog
 	bind:openDialog={openViewBalancesDialog}
-	expensesList={expenses}
+	expensesObj={$groupStore.expenses}
+	paymentsObj={$groupStore.payments}
 	membersList={members}
 />
 

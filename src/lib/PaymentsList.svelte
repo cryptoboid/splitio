@@ -1,7 +1,9 @@
 <script lang="ts">
-	import List, { Item, Text, PrimaryText, SecondaryText, Meta, Graphic } from '@smui/list';
+	import List, { Item, Text, PrimaryText, SecondaryText, Graphic } from '@smui/list';
 	import { absRounded, getMemberAvatarURL } from './_modules/utils';
-	export let pendingPayments = [];
+	export let pendingPayments: Array<any> = [];
+	export let payerName = '';
+	export let showRecordPaymentCallback: Function;
 </script>
 
 <List twoLine style="margin-left: 30px; margin-bottom: 10px;">
@@ -14,7 +16,7 @@
 		</Item>
 	{:else}
 		{#each pendingPayments as [receiverName, debtAmount]}
-			<Item>
+			<Item on:click={() => showRecordPaymentCallback(receiverName, debtAmount, payerName)}>
 				<Text>
 					<PrimaryText><span style="color: gray">pay to</span> {receiverName}</PrimaryText>
 					<SecondaryText class="error-text">${absRounded(debtAmount)}</SecondaryText>
