@@ -18,12 +18,12 @@
 	import { getSEA, initAppDB } from '$lib/_modules/initGun';
 	import AddExpenseDialog from '$lib/AddExpenseDialog.svelte';
 	import AddMemberDialog from '$lib/AddMemberDialog.svelte';
-	import { getMemberAvatarURL, timestampToShortDate } from '$lib/_modules/utils';
+	import { getMemberAvatarURL } from '$lib/_modules/utils';
 	import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 	import Chip, { Set, LeadingIcon, Text as ChipText } from '@smui/chips';
 	import { onSecure, setSecure } from '$lib/_modules/secure';
 	import { secretKey, groupDB, groupStore } from '$lib/_modules/stores';
-import TransactionListItem from '$lib/TransactionListItem.svelte';
+	import TransactionListItem from '$lib/TransactionListItem.svelte';
 
 	export let groupId: string;
 
