@@ -2,8 +2,7 @@
 	import Dialog, { Title, Content, Actions } from '@smui/dialog';
 	import Button, { Label } from '@smui/button';
 	import { absRounded, getMemberAvatarURL } from './_modules/utils';
-	import { Item, Text, PrimaryText, SecondaryText, Graphic } from '@smui/list';
-	import List from '@smui/list/List.svelte';
+	import List, { Item, Text, PrimaryText, SecondaryText, Graphic } from '@smui/list';
 	import { recordPayment } from './_modules/money';
 
 	export let openDialog = false;
