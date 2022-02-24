@@ -15,3 +15,9 @@
     @include circular-progress.color(theme.$secondary);
     @include circular-progress.track-color(theme.$secondary);
 }
+
+.add-expense-select > .mdc-menu {
+    // really ugly hack to prevent select menu from going outside of range
+    height: 175px;
+    top: -125px !important;    
+}

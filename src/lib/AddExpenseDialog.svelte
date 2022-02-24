@@ -35,7 +35,7 @@ import { getMemberAvatarURL } from './_modules/utils';
 			</Cell>
 			<Cell span={12}>
 				who payed?
-				<Select bind:value={inputPaidBy}>
+				<Select bind:value={inputPaidBy} class="add-expense-select">
 					<Icon
 						slot="leadingIcon"
 						style="background-image: url({getMemberAvatarURL(inputPaidBy, 24)});"
