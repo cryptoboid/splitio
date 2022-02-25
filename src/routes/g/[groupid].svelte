@@ -15,6 +15,7 @@
 	import { onMount } from 'svelte';
 	import Fab, { Icon as FabIcon } from '@smui/fab';
 	import List, { Item, Text, PrimaryText, SecondaryText, Meta, Graphic } from '@smui/list';
+	import Snackbar, { Label, SnackbarComponentDev } from '@smui/snackbar';
 	import { getSEA, initAppDB } from '$lib/_modules/initGun';
 	import AddExpenseDialog from '$lib/AddExpenseDialog.svelte';
 	import AddMemberDialog from '$lib/AddMemberDialog.svelte';
@@ -37,12 +38,20 @@
 	let openViewBalancesDialog: boolean = false;
 	let openConfirmDeleteDialog: boolean = false;
 	let confirmDeleteTx = {};
+	let copiedLinkSnackbar: SnackbarComponentDev;
 
 	let chips = [
 		{
 			title: 'balances',
 			icon: 'balance',
 			onClick: () => (openViewBalancesDialog = true)
+		},
+		{
+			title: 'share group',
+			icon: 'share',
+			onClick: () => {
+				navigator.clipboard.writeText(window.location.href).then(() => copiedLinkSnackbar.open());
+			}
 		},
 		{
 			title: 'monthly stats',
@@ -132,7 +141,7 @@
 
 <div class="mdc-typography--headline5">{$groupStore.groupInfo.name}</div>
 
-<Set {chips} let:chip>
+<Set {chips} style="overflow-x: auto; flex-wrap: nowrap" let:chip>
 	<Chip {chip} shouldRemoveOnTrailingIconClick={false} on:click={chip.onClick}>
 		<LeadingIcon class="material-icons">{chip.icon}</LeadingIcon>
 		<ChipText tabindex={0}>{chip.title}</ChipText>
@@ -205,6 +214,10 @@
 />
 
 <ConfirmDeleteTxDialog bind:openDialog={openConfirmDeleteDialog} transaction={confirmDeleteTx} />
+
+<Snackbar bind:this={copiedLinkSnackbar}>
+	<Label>📋 link copied to clipboard, now share it!</Label>
+</Snackbar>
 
 <style>
 	.flexy {
