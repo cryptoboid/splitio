@@ -141,7 +141,7 @@
 
 <div class="mdc-typography--headline5">{$groupStore.groupInfo.name}</div>
 
-<Set {chips} style="overflow-x: scroll; flex-wrap: nowrap" let:chip>
+<Set {chips} style="overflow-x: auto; flex-wrap: nowrap" let:chip>
 	<Chip {chip} shouldRemoveOnTrailingIconClick={false} on:click={chip.onClick}>
 		<LeadingIcon class="material-icons">{chip.icon}</LeadingIcon>
 		<ChipText tabindex={0}>{chip.title}</ChipText>
