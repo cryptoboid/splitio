@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dialog, { Title, Content, Actions } from '@smui/dialog';
+	import Dialog, { Title, Content, Actions, InitialFocus } from '@smui/dialog';
 	import Button, { Label } from '@smui/button';
 	import { absRounded, getMemberAvatarURL } from './_modules/utils';
 	import List, { Item, Text, PrimaryText, SecondaryText, Graphic } from '@smui/list';
@@ -41,7 +41,7 @@
 		<p>this will record a payment of ${roundedDebt} in the group</p>
 	</Content>
 	<Actions>
-		<Button>
+		<Button use={[InitialFocus]}>
 			<Label>cancel</Label>
 		</Button>
 		<Button

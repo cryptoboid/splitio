@@ -104,10 +104,15 @@ export function recordPayment(payerName: string, receiverName: string, payedAmou
     );
 }
 
-export function removeExpense(key: string) {
+function removeExpense(key: string) {
     get(groupDB).get('expenses').get(key).put(null);
 };
 
-export function removePayment(key: string) {
+function removePayment(key: string) {
     get(groupDB).get('payments').get(key).put(null);
 };
+
+export function removeTransaction(key: string, transaction: object) {
+    if (transaction.title) removeExpense(key);
+    else removePayment(key);
+}

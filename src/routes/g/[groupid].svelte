@@ -24,6 +24,7 @@
 	import { onSecure, setSecure } from '$lib/_modules/secure';
 	import { secretKey, groupDB, groupStore } from '$lib/_modules/stores';
 	import TransactionListItem from '$lib/TransactionListItem.svelte';
+	import ConfirmDeleteTxDialog from '$lib/ConfirmDeleteTxDialog.svelte';
 
 	export let groupId: string;
 
@@ -34,6 +35,8 @@
 	let openAddMemberDialog: boolean = false;
 	let openAddExpenseDialog: boolean = false;
 	let openViewBalancesDialog: boolean = false;
+	let openConfirmDeleteDialog: boolean = false;
+	let confirmDeleteTx = {};
 
 	let chips = [
 		{
@@ -140,7 +143,15 @@
 
 <List twoLine avatarList>
 	{#each transactions as [key, transaction]}
-		<TransactionListItem {key} {transaction} />
+		<TransactionListItem
+			{key}
+			{transaction}
+			onDeleteCallback={() => {
+				confirmDeleteTx = transaction;
+				confirmDeleteTx.key = key;
+				openConfirmDeleteDialog = true;
+			}}
+		/>
 	{/each}
 	{#if !transactions.length}
 		<Item disabled>
@@ -192,6 +203,8 @@
 	paymentsObj={$groupStore.payments}
 	membersList={members}
 />
+
+<ConfirmDeleteTxDialog bind:openDialog={openConfirmDeleteDialog} transaction={confirmDeleteTx} />
 
 <style>
 	.flexy {
