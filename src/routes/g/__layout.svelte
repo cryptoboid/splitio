@@ -1,23 +1,7 @@
 <script lang="ts">
-	import TopAppBar, {
-		Row,
-		Section,
-		AutoAdjust,
-		TopAppBarComponentDev
-	} from '@smui/top-app-bar';
+	import TopAppBar, { Row, Section, AutoAdjust, TopAppBarComponentDev } from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
 	import SplitioIcon from '$lib/SplitioIcon.svelte';
-
-	let tabs = [
-		{
-			icon: 'group',
-			label: 'group'
-		},
-		{
-			icon: 'account_circle',
-			label: 'you'
-		}
-	];
 
 	let topAppBar: TopAppBarComponentDev;
 
@@ -41,34 +25,21 @@
 <TopAppBar bind:this={topAppBar} variant="standard">
 	<Row>
 		<Section>
-				<SplitioIcon isTopApp />
+			<SplitioIcon isTopApp />
 		</Section>
 		<Section align="end">
 			<IconButton on:click={switchTheme} class="material-icons" aria-label="Information"
-				>dark_mode</IconButton
+				>{lightTheme ? 'light_mode' : 'dark_mode'}</IconButton
 			>
 		</Section>
 	</Row>
 </TopAppBar>
 <AutoAdjust {topAppBar}>
-	<!-- <div style="display: flex; flex-direction: column; justify-content: space-between;"></div> -->
 	<div class="container">
-		<slot/>
+		<slot />
 	</div>
 	<div class="mdc-typography--caption footer">made with ❤️ by cryptoboid</div>
-	<!-- </div> -->
 </AutoAdjust>
-<!-- 
-<div
-	style="position: fixed; bottom: 0; width: 100%;background: {lightTheme ? '#f7f7f7' : '#191919'}"
->
-	<TabBar {tabs} let:tab bind:active>
-		<Tab {tab} stacked>
-			<Icon class="material-icons">{tab.icon}</Icon>
-			<TabLabel>{tab.label}</TabLabel>
-		</Tab>
-	</TabBar>
-</div> -->
 
 <style>
 	.footer {
