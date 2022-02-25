@@ -24,18 +24,25 @@ information is p2p distributed using gun and end-to-end encrypted using gun/sea.
 built with SvelteKit and GunDB.
 </p>
 
+## 🤔 how to use
+
+1. go to https://splitio.vercel.app (or self-host yours!)
+2. create a group with any name
+3. send your friends the long url to start sharing bills! no accounts required
+
 ## 🌟 showcase
 <table>
 <tr>
     <a href=""><img width="21%" src="./screenshots/screen1.png"/></a>
     <a href=""><img width="21%" src="./screenshots/screen4.png"/></a>
-    <a href=""><img width="21%" src="./screenshots/screen6.png"/></a>
+    <a href=""><img width="21%" src="./screenshots/screen2.png"/></a>
     <div/>
 </tr>
 <tr>
-    <a href=""><img width="21%" src="./screenshots/screen2.png"/></a>
     <a href=""><img width="21%" src="./screenshots/screen3.png"/></a>
     <a href=""><img width="21%" src="./screenshots/screen5.png"/></a>
+    <a href=""><img width="21%" src="./screenshots/screen6.png"/></a>
+
 </tr>
 </table>
 
@@ -43,7 +50,8 @@ built with SvelteKit and GunDB.
 
 some extra desired features/fixes are:
 - ~~compute who-owes-what~~ (done!)
-- add settlements
+- ~~add settlements~~ (done! just click on who you want to pay in the balances dialog)
+- ~~show date in group transactions~~ (done!)
 - calculate monthly stats (expenses amount in last 30 days)
 - allow changing currency symbol ($, €, ¥, etc)
 - ~~favorite a group for easy access in PWA (or provide some kind of shortcut)~~ (disabled PWA for now)
@@ -55,6 +63,12 @@ some extra desired features/fixes are:
 2. install npm packages: `npm install`
 3. start the server (with hot reloading): `npm run dev`
 4. navigate to [localhost:3000](http://localhost:5000)
+
+## ⚠️ disclaimer
+
+even though all information is encrypted and decrypted on-device (e2ee), i'm not a security expert. given this, i'm looking for more people to review the encryption code and fix any vulnerabilities.
+
+also, as the code uses Gun with community servers and localStorage, persisting data for long amounts of time could be an issue. try to open your group often to get more devices updated. in the future, i should probably self-host a Gun relay, though i don't currently have the means necessary.
 
 ## ⚖️ license
 
