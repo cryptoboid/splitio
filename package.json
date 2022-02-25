@@ -30,6 +30,7 @@
 		"@smui/paper": "^5.0.0-beta.7",
 		"@smui/ripple": "^5.0.0-beta.7",
 		"@smui/select": "^5.0.0-beta.7",
+		"@smui/snackbar": "^5.0.0-beta.7",
 		"@smui/tab": "^5.0.0-beta.7",
 		"@smui/tab-bar": "^5.0.0-beta.7",
 		"@smui/textfield": "^5.0.0-beta.7",
