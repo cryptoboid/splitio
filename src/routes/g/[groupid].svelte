@@ -26,6 +26,7 @@
 	import { secretKey, groupDB, groupStore } from '$lib/_modules/stores';
 	import TransactionListItem from '$lib/TransactionListItem.svelte';
 	import ConfirmDeleteTxDialog from '$lib/ConfirmDeleteTxDialog.svelte';
+	import LoadingSpinnerOverlay from '$lib/LoadingSpinnerOverlay.svelte';
 
 	export let groupId: string;
 
@@ -188,6 +189,7 @@
 	</Item>
 </List>
 
+<!-- floating action button -->
 <div class="flexy">
 	<div class="margins">
 		<Fab style="border-radius: 17px;" on:click={() => (openAddExpenseDialog = true)}>
@@ -195,6 +197,9 @@
 		</Fab>
 	</div>
 </div>
+
+<!-- loading overlay -->
+<LoadingSpinnerOverlay showOverlay={$groupStore.groupInfo.name === 'loading...'}/>
 
 <!-- add member dialog -->
 <AddMemberDialog bind:openDialog={openAddMemberDialog} addCallback={addMember} />
