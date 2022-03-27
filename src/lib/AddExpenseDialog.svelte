@@ -6,7 +6,7 @@
 	import Select, { Option } from '@smui/select';
 	import Icon from '@smui/select/icon';
 	import { Graphic } from '@smui/list';
-import { getMemberAvatarURL } from './_modules/utils';
+	import { getMemberAvatarURL } from './_modules/utils';
 
 	export let openDialog = false;
 	export let addCallback: Function = () => {};
