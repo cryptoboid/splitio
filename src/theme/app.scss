@@ -21,3 +21,13 @@
     height: 175px;
     top: -125px !important;    
 }
+
+.settlement-item {
+    border-width: 1px;
+    border-color: theme.$primary;
+    border-style: solid;
+}
+
+.rounded-item {
+    border-radius: 17px;
+}

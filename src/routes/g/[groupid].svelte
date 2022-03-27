@@ -176,13 +176,13 @@
 
 <List oneLine avatarList style="margin-bottom: 70px;">
 	{#each members as [key, member]}
-		<Item>
+		<Item class="rounded-item">
 			<Graphic style="background-image: url({getMemberAvatarURL(member.name)});" />
 			<Text>{member.name}</Text>
 			<!-- <Meta class="material-icons">info</Meta> -->
 		</Item>
 	{/each}
-	<Item on:click={() => (openAddMemberDialog = true)}>
+	<Item on:click={() => (openAddMemberDialog = true)} class="rounded-item">
 		<Text>add someone</Text>
 		<Meta class="material-icons">person_add</Meta>
 	</Item>

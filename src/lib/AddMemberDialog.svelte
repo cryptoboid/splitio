@@ -16,7 +16,7 @@
 >
 	<Title id="default-focus-title">👋 add someone</Title>
 	<Content id="default-focus-content">
-		please enter their name:
+		enter their name:
 		<Textfield bind:value={inputName} />
 	</Content>
 	<Actions>
