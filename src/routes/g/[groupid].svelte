@@ -209,6 +209,8 @@
 
 <SyncIssuesDialog bind:openDialog={openSyncIssuesDialog} />
 
+<SyncIssuesDialog bind:openDialog={openSyncIssuesDialog} />
+
 <Snackbar bind:this={copiedLinkSnackbar}>
 	<Label>📋 link copied to clipboard, now share it!</Label>
 </Snackbar>
