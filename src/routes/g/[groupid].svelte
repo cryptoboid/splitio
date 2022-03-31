@@ -27,6 +27,8 @@
 	import TransactionListItem from '$lib/TransactionListItem.svelte';
 	import ConfirmDeleteTxDialog from '$lib/ConfirmDeleteTxDialog.svelte';
 	import LoadingSpinnerOverlay from '$lib/LoadingSpinnerOverlay.svelte';
+	import { storeRecentGroup } from '$lib/_modules/recentGroupsStorage';
+	import SyncIssuesDialog from '$lib/SyncIssuesDialog.svelte';
 
 	export let groupId: string;
 
@@ -38,6 +40,7 @@
 	let openAddExpenseDialog: boolean = false;
 	let openViewBalancesDialog: boolean = false;
 	let openConfirmDeleteDialog: boolean = false;
+	let openSyncIssuesDialog: boolean = false;
 	let confirmDeleteTx = {};
 	let copiedLinkSnackbar: SnackbarComponentDev;
 
@@ -55,12 +58,17 @@
 			}
 		},
 		{
-			title: 'monthly stats',
-			icon: 'event',
-			onClick: () => {
-				alert('soon!');
-			}
+			title: 'sync issues?',
+			icon: 'sync_problem',
+			onClick: () => (openSyncIssuesDialog = true)
 		}
+		// {
+		// 	title: 'monthly stats',
+		// 	icon: 'event',
+		// 	onClick: () => {
+		// 		alert('soon!');
+		// 	}
+		// }
 	];
 
 	onMount(() => {
@@ -93,7 +101,10 @@
 		onSecure(
 			$groupDB.get('groupInfo'),
 			$secretKey,
-			(plain, key) => ($groupStore.groupInfo.name = plain.name),
+			(plain, key) => {
+				$groupStore.groupInfo.name = plain.name;
+				storeRecentGroup(GROUPID, $secretKey, plain.name);
+			},
 			(key) => {
 				delete $groupStore.groupInfo[key];
 				$groupStore.groupInfo = $groupStore.groupInfo;
@@ -142,7 +153,7 @@
 
 <div class="mdc-typography--headline5">{$groupStore.groupInfo.name}</div>
 
-<Set {chips} style="overflow-x: auto; flex-wrap: nowrap" let:chip>
+<Set {chips} style="overflow-x: auto; flex-wrap: nowrap; margin-left: -10px; margin-right: -10px" let:chip>
 	<Chip {chip} shouldRemoveOnTrailingIconClick={false} on:click={chip.onClick}>
 		<LeadingIcon class="material-icons">{chip.icon}</LeadingIcon>
 		<ChipText tabindex={0}>{chip.title}</ChipText>
@@ -154,7 +165,6 @@
 <List twoLine avatarList>
 	{#each transactions as [key, transaction]}
 		<TransactionListItem
-			{key}
 			{transaction}
 			onDeleteCallback={() => {
 				confirmDeleteTx = transaction;
@@ -199,7 +209,7 @@
 </div>
 
 <!-- loading overlay -->
-<LoadingSpinnerOverlay showOverlay={$groupStore.groupInfo.name === 'loading...'}/>
+<LoadingSpinnerOverlay showOverlay={$groupStore.groupInfo.name === 'loading...'} />
 
 <!-- add member dialog -->
 <AddMemberDialog bind:openDialog={openAddMemberDialog} addCallback={addMember} />
@@ -219,6 +229,8 @@
 />
 
 <ConfirmDeleteTxDialog bind:openDialog={openConfirmDeleteDialog} transaction={confirmDeleteTx} />
+
+<SyncIssuesDialog bind:openDialog={openSyncIssuesDialog} />
 
 <Snackbar bind:this={copiedLinkSnackbar}>
 	<Label>📋 link copied to clipboard, now share it!</Label>

@@ -12,6 +12,7 @@
 	import IconButton from '@smui/icon-button/IconButton.svelte';
 	import type { IGunStaticSEA } from 'gun/types/static/sea';
 	import LoadingSpinnerOverlay from '$lib/LoadingSpinnerOverlay.svelte';
+	import RecentGroupsList from '$lib/RecentGroupsList.svelte';
 
 	let groupValue = '';
 	let openCreateGroupDialog: boolean = false;
@@ -30,8 +31,8 @@
 	const initGunIfNew = () => {
 		if (!appDB) appDB = initAppDB();
 		if (!SEA) SEA = getSEA();
-	}
-	
+	};
+
 	const createGroup = async (groupName: string) => {
 		showLoadingSpinner = true;
 		const result = appDB.set({ expenses: {}, members: {}, groupInfo: {} });
@@ -55,26 +56,23 @@
 </svelte:head>
 
 <div class="homepage-container">
-	<div>
-		<SplitioIcon />
-	</div>
-	<IconButton
-		on:click={() => redirectToAbout()}
-		class="material-icons info-btn"
-		aria-label="Information">info</IconButton
-	>
+	<SplitioIcon />
 	<div class="group-text-container">
+		<RecentGroupsList />
 		<Button
-			style="border-radius: 17px; margin: 1.5rem"
+			style="border-radius: 17px; margin: 1rem"
 			variant="raised"
 			color="secondary"
-			on:click={() => {openCreateGroupDialog = true; initGunIfNew()}}
+			on:click={() => {
+				openCreateGroupDialog = true;
+				initGunIfNew();
+			}}
 		>
 			<Icon class="material-icons">add</Icon>
 			<Label>create group</Label>
 		</Button>
 		<div class="mdc-typography--body1">or paste your group id here:</div>
-		<Paper class="solo-paper" elevation={4}>
+		<Paper class="solo-paper" elevation={5}>
 			<Icon class="material-icons">group</Icon>
 			<Input
 				bind:value={groupValue}
@@ -82,16 +80,21 @@
 				placeholder="Group ID"
 				class="solo-input"
 			/>
+			<Fab
+				on:click={() => redirectToGroup(groupValue, window.location.hash)}
+				exited={groupValue === ''}
+				color="secondary"
+				class="solo-fab"
+			>
+				<Icon class="material-icons">arrow_forward</Icon>
+			</Fab>
 		</Paper>
-		<Fab
-			on:click={() => redirectToGroup(groupValue, window.location.hash)}
-			exited={groupValue === ''}
-			color="secondary"
-			class="solo-fab"
-		>
-			<Icon class="material-icons">arrow_forward</Icon>
-		</Fab>
 	</div>
+	<IconButton
+		on:click={() => redirectToAbout()}
+		class="material-icons info-btn"
+		aria-label="Information">info</IconButton
+	>
 </div>
 
 <LoadingSpinnerOverlay showOverlay={showLoadingSpinner} />
@@ -100,11 +103,19 @@
 
 <style>
 	.homepage-container {
-		min-height: 100vh;
+		min-height: calc(100vh - 2rem);
+		padding-top: 2rem;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+	}
+
+	@media (max-width: 500px) {
+		.homepage-container {
+			padding-top: 5rem;
+			min-height: calc(100vh - 5rem);
+		}
 	}
 
 	.group-text-container {
@@ -113,6 +124,7 @@
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
+		margin-top: 1.5rem;
 	}
 
 	* :global(.solo-paper) {
@@ -138,7 +150,9 @@
 	}
 	* :global(.solo-fab) {
 		flex-shrink: 0;
-		margin-top: 0rem;
+		height: 60px;
+		width: 60px;
+		/* margin-top: 0rem; */
 	}
 
 	* :global(.info-btn) {

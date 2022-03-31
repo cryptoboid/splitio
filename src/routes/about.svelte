@@ -15,12 +15,12 @@
 	<div class="group-text-container">
 		<Paper class="paper-demo" elevation={5}>
 			<Title>ℹ️ about</Title>
-			<Content>
-				split your bills easily! splitio is an open-source webapp built for tracking debts and
-				payments quickly, without any user accounts. <br /> <br />
+			<Content style="white-space: pre-line;">
+				split your bills easily! splitio is an open-source webapp built for tracking debts and payments quickly, without any user accounts.
+
+				all info is shared in a p2p fashion (like a torrent), so make sure to connect with your friends at the same time if something goes wrong.
 
 				built by cryptoboid with SvelteKit and GunDB.
-
 				<Button
 					on:click={() => {}}
 					variant="raised"
@@ -47,7 +47,7 @@
 	}
 
 	.group-text-container {
-		/* padding: 0px 1px; */
+		margin-top: 1.5rem;
 		display: flex;
 		justify-content: center;
 		align-items: center;

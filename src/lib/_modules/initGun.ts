@@ -1,12 +1,10 @@
 import Gun from 'gun';
 import 'gun/sea.js';
 
-// Crashes for some users in Chrome Android :(
-// Disabling for now
-// import 'gun/lib/radix.js';
-// import 'gun/lib/radisk.js';
-// import 'gun/lib/store.js';
-// import 'gun/lib/rindexed.js';
+import 'gun/lib/radix.js';
+import 'gun/lib/radisk.js';
+import 'gun/lib/store.js';
+import 'gun/lib/rindexed.js';
 
 export const initAppDB = () => {
     const GUN = Gun({
@@ -19,8 +17,8 @@ export const initAppDB = () => {
             // 'https://gun-eu.herokuapp.com/gun'
             // My own relay peer
             // "http://192.168.0.10:8765/gun"
-        ]
-
+        ],
+        localStorage: false
     });
     return GUN.get('splitio');
 }
