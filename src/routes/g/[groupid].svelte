@@ -158,7 +158,6 @@
 <List twoLine avatarList>
 	{#each transactions as [key, transaction]}
 		<TransactionListItem
-			{key}
 			{transaction}
 			onDeleteCallback={() => {
 				confirmDeleteTx = transaction;
