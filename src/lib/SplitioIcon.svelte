@@ -12,6 +12,7 @@
 		tabindex="0"
 		style="display: flex; flex-direction: row; align-items: center;"
 		on:click={() => (window.location.href = '/')}
+		class="rounded-item"
 	>
 		<img src={base + "/logo_black.png"} height="27px" alt="icon" style="margin-left: 10px" href="/" />
 		<TopTitle style="font-family: Josefin Sans;font-size: x-large;margin-left: -13px;">
@@ -23,6 +24,7 @@
 		use:Ripple={{ surface: true }}
 		on:click={() => (window.location.href = '/')}
 		style="align-items: center; display: flex; flex-direction: column;"
+		class="rounded-item"
 	>
 		<img src={base + "/logo_black.png"} height="70rem" style="margin-bottom: 10px;" alt="icon" />
 		<div class="logo-home">splitio</div>

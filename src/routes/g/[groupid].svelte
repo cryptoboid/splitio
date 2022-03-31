@@ -16,7 +16,7 @@
 	import Fab, { Icon as FabIcon } from '@smui/fab';
 	import List, { Item, Text, PrimaryText, SecondaryText, Meta, Graphic } from '@smui/list';
 	import Snackbar, { Label, SnackbarComponentDev } from '@smui/snackbar';
-	import { getSEA, initAppDB } from '$lib/_modules/initGun';
+	import { initAppDB } from '$lib/_modules/initGun';
 	import AddExpenseDialog from '$lib/AddExpenseDialog.svelte';
 	import AddMemberDialog from '$lib/AddMemberDialog.svelte';
 	import { getMemberAvatarURL } from '$lib/_modules/utils';
@@ -24,24 +24,17 @@
 	import Chip, { Set, LeadingIcon, Text as ChipText } from '@smui/chips';
 	import { onSecure, setSecure } from '$lib/_modules/secure';
 	import { secretKey, groupDB, groupStore } from '$lib/_modules/stores';
-	import TransactionListItem from '$lib/TransactionListItem.svelte';
-	import ConfirmDeleteTxDialog from '$lib/ConfirmDeleteTxDialog.svelte';
 	import LoadingSpinnerOverlay from '$lib/LoadingSpinnerOverlay.svelte';
 	import { storeRecentGroup } from '$lib/_modules/recentGroupsStorage';
 	import SyncIssuesDialog from '$lib/SyncIssuesDialog.svelte';
+	import TransactionsList from '$lib/TransactionsList.svelte';
 
 	export let groupId: string;
-
-	// let groupDB: any = undefined;
-	let SEA: any = undefined;
-	// let secretKey: string = '';
 
 	let openAddMemberDialog: boolean = false;
 	let openAddExpenseDialog: boolean = false;
 	let openViewBalancesDialog: boolean = false;
-	let openConfirmDeleteDialog: boolean = false;
 	let openSyncIssuesDialog: boolean = false;
-	let confirmDeleteTx = {};
 	let copiedLinkSnackbar: SnackbarComponentDev;
 
 	let chips = [
@@ -73,7 +66,7 @@
 
 	onMount(() => {
 		const appDB = initAppDB();
-		SEA = getSEA();
+		// SEA = getSEA();
 		$secretKey = window.location.hash;
 		const GROUPID = groupId || 'unknown group';
 		$groupDB = appDB.get(GROUPID);
@@ -153,7 +146,11 @@
 
 <div class="mdc-typography--headline5">{$groupStore.groupInfo.name}</div>
 
-<Set {chips} style="overflow-x: auto; flex-wrap: nowrap; margin-left: -10px; margin-right: -10px" let:chip>
+<Set
+	{chips}
+	style="overflow-x: auto; flex-wrap: nowrap; margin-left: -10px; margin-right: -10px"
+	let:chip
+>
 	<Chip {chip} shouldRemoveOnTrailingIconClick={false} on:click={chip.onClick}>
 		<LeadingIcon class="material-icons">{chip.icon}</LeadingIcon>
 		<ChipText tabindex={0}>{chip.title}</ChipText>
@@ -162,26 +159,7 @@
 
 <div class="mdc-typography--headline5">💸 group transactions</div>
 
-<List twoLine avatarList>
-	{#each transactions as [key, transaction]}
-		<TransactionListItem
-			{transaction}
-			onDeleteCallback={() => {
-				confirmDeleteTx = transaction;
-				confirmDeleteTx.key = key;
-				openConfirmDeleteDialog = true;
-			}}
-		/>
-	{/each}
-	{#if !transactions.length}
-		<Item disabled>
-			<Text>
-				<PrimaryText>nothing yet...</PrimaryText>
-				<SecondaryText>add a new expense with the plus sign</SecondaryText>
-			</Text>
-		</Item>
-	{/if}
-</List>
+<TransactionsList {transactions} />
 
 <div class="mdc-typography--headline5">🤝 members</div>
 
@@ -228,7 +206,8 @@
 	membersList={members}
 />
 
-<ConfirmDeleteTxDialog bind:openDialog={openConfirmDeleteDialog} transaction={confirmDeleteTx} />
+
+<SyncIssuesDialog bind:openDialog={openSyncIssuesDialog} />
 
 <SyncIssuesDialog bind:openDialog={openSyncIssuesDialog} />
 
@@ -246,6 +225,7 @@
 		right: 10px;
 		z-index: 1;
 	}
+
 	* :global(.margins) {
 		margin: 0 0.4em 0.4em 0;
 	}
