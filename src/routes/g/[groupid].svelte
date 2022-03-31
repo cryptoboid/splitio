@@ -27,6 +27,7 @@
 	import TransactionListItem from '$lib/TransactionListItem.svelte';
 	import ConfirmDeleteTxDialog from '$lib/ConfirmDeleteTxDialog.svelte';
 	import LoadingSpinnerOverlay from '$lib/LoadingSpinnerOverlay.svelte';
+	import { storeRecentGroup } from '$lib/_modules/recentGroupsStorage';
 
 	export let groupId: string;
 
@@ -93,7 +94,10 @@
 		onSecure(
 			$groupDB.get('groupInfo'),
 			$secretKey,
-			(plain, key) => ($groupStore.groupInfo.name = plain.name),
+			(plain, key) => {
+				$groupStore.groupInfo.name = plain.name;
+				storeRecentGroup(GROUPID, $secretKey, plain.name);
+			},
 			(key) => {
 				delete $groupStore.groupInfo[key];
 				$groupStore.groupInfo = $groupStore.groupInfo;

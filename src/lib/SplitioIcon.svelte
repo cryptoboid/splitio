@@ -33,7 +33,7 @@
 	.logo-home {
 		font-family: Josefin Sans;
 		font-size: 3rem;
-		margin-bottom: 3rem;
+		/* margin-bottom: 1.5rem; */
 	}
 
 	[tabindex='0'] {
