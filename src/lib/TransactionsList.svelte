@@ -2,12 +2,11 @@
 	import List, { Item, Graphic, Text, PrimaryText, SecondaryText } from '@smui/list';
 	import ConfirmDeleteTxDialog from './ConfirmDeleteTxDialog.svelte';
 	import TransactionListItem from './TransactionListItem.svelte';
+	import { TRANSACTIONS_INC_MAX_SHOW, TRANSACTIONS_INITIAL_MAX_SHOW } from './_modules/constants';
 
 	export let transactions = [];
 
-	const INITIAL_MAX_SHOW = 5;
-	const INC_MAX_SHOW = 10;
-	let maxShownTx = INITIAL_MAX_SHOW;
+	let maxShownTx = TRANSACTIONS_INITIAL_MAX_SHOW;
 
 	let openConfirmDeleteDialog: boolean = false;
 	let confirmDeleteTx = {};
@@ -35,13 +34,13 @@
 	{#if transactions.length > maxShownTx}
 		<Item
 			class="rounded-item"
-			on:click={() => (maxShownTx += Math.min(transactions.length - maxShownTx, INC_MAX_SHOW))}
+			on:click={() => (maxShownTx += Math.min(transactions.length - maxShownTx, TRANSACTIONS_INC_MAX_SHOW))}
 			style="max-height: 48px; color: grey"
 		>
 			<Graphic class="material-icons" style="width: 1.75rem;">expand_more</Graphic>
 			<Text>
 				<PrimaryText style="margin-top: -3px">
-					show {Math.min(transactions.length - maxShownTx, INC_MAX_SHOW)} more...
+					show {Math.min(transactions.length - maxShownTx, TRANSACTIONS_INC_MAX_SHOW)} more...
 				</PrimaryText>
 			</Text>
 		</Item>

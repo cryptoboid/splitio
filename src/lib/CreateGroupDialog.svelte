@@ -2,6 +2,7 @@
 	import Dialog, { Title, Content, Actions } from '@smui/dialog';
 	import Button, { Label } from '@smui/button';
 	import Textfield from '@smui/textfield';
+	import { PLACEHOLDER_GROUP_NAME } from './_modules/constants';
 
 	export let openDialog = false;
 	export let addCallback: Function = () => {};
@@ -25,7 +26,7 @@
 		</Button>
 		<Button
 			variant="unelevated"
-			disabled={inputName === ''}
+			disabled={inputName === '' || inputName === PLACEHOLDER_GROUP_NAME}
 			on:click={() => {
 				addCallback(inputName);
 				inputName = '';

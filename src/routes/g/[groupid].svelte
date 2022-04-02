@@ -28,6 +28,7 @@
 	import { storeRecentGroup } from '$lib/_modules/recentGroupsStorage';
 	import SyncIssuesDialog from '$lib/SyncIssuesDialog.svelte';
 	import TransactionsList from '$lib/TransactionsList.svelte';
+	import { PLACEHOLDER_GROUP_NAME } from '$lib/_modules/constants';
 
 	export let groupId: string;
 
@@ -187,7 +188,7 @@
 </div>
 
 <!-- loading overlay -->
-<LoadingSpinnerOverlay showOverlay={$groupStore.groupInfo.name === 'loading...'} />
+<LoadingSpinnerOverlay showOverlay={$groupStore.groupInfo.name === PLACEHOLDER_GROUP_NAME} />
 
 <!-- add member dialog -->
 <AddMemberDialog bind:openDialog={openAddMemberDialog} addCallback={addMember} />

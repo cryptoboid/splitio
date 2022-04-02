@@ -1,6 +1,4 @@
-const LOCAL_STORAGE_PREFIX = 'splitio';
-const RECENT_GROUPS_KEY = `${LOCAL_STORAGE_PREFIX}_recent_groups`;
-const MAX_RECENT_GROUPS_AMNT = 5;
+import { MAX_RECENT_GROUPS_AMNT, RECENT_GROUPS_KEY } from "./constants";
 
 export function storeRecentGroup(groupId: string, secretKey: string, groupName: string) {
     let recentGroups: object[] = getRecentGroups();
