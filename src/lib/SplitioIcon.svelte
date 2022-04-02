@@ -2,6 +2,7 @@
 	import { Title as TopTitle } from '@smui/top-app-bar';
 	import Ripple from '@smui/ripple';
 	import { base } from '$app/paths';
+	import { goto } from '$app/navigation';
 
 	export let isTopApp = false;
 </script>
@@ -11,7 +12,7 @@
 		use:Ripple={{ surface: true }}
 		tabindex="0"
 		style="display: flex; flex-direction: row; align-items: center;"
-		on:click={() => (window.location.href = '/')}
+		on:click={() => goto('/')}
 		class="rounded-item"
 	>
 		<img src={base + "/logo_black.png"} height="27px" alt="icon" style="margin-left: 10px" href="/" />
@@ -22,7 +23,7 @@
 {:else}
 	<div
 		use:Ripple={{ surface: true }}
-		on:click={() => (window.location.href = '/')}
+		on:click={() => goto('/')}
 		style="align-items: center; display: flex; flex-direction: column;"
 		class="rounded-item"
 	>

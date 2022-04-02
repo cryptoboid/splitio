@@ -65,7 +65,7 @@
 	}
 
 	* :global(.paper-demo) {
-		margin: 0 1rem;
+		margin: 1.5rem 1rem;
 		max-width: 600px;
 	}
 </style>
