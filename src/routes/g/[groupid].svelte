@@ -206,9 +206,6 @@
 	membersList={members}
 />
 
-
-<SyncIssuesDialog bind:openDialog={openSyncIssuesDialog} />
-
 <SyncIssuesDialog bind:openDialog={openSyncIssuesDialog} />
 
 <Snackbar bind:this={copiedLinkSnackbar}>
