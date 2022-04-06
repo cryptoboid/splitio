@@ -48,7 +48,18 @@
 			title: 'share group',
 			icon: 'share',
 			onClick: () => {
-				navigator.clipboard.writeText(window.location.href).then(() => copiedLinkSnackbar.open());
+				if (navigator.share) {
+					navigator
+						.share({
+							title: 'splitio',
+							text: "Let's split bills with this group in splitio 💰",
+							url: window.location.href
+						})
+						.then(() => console.log('Successful share'))
+						.catch((error) => console.log('Error sharing', error));
+				} else {
+					navigator.clipboard.writeText(window.location.href).then(copiedLinkSnackbar.open);
+				}
 			}
 		},
 		{
