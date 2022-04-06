@@ -55,7 +55,7 @@ some extra desired features/fixes are:
 - ~~show date in group transactions~~ (done!)
 - ~~show recently viewed groups in home~~ (done!)
 - ~~favorite a group for easy access in PWA (or provide some kind of shortcut)~~ (disabled PWA for now)
-- ~~support for more complex expenses: shared payment, divide by a subgroup~~ (must change storage model, too complicated)
+- ~~support for more complex expenses: shared payment, divide by a subgroup~~ (must change storage model, too complicated for now)
 - ... and more!
 
 ## ❤️ contribute
