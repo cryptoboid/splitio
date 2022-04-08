@@ -49,12 +49,13 @@ built with SvelteKit and GunDB.
 ## 📝 next steps
 
 some extra desired features/fixes are:
+- calculate monthly stats (expenses amount in last 30 days)
 - ~~compute who-owes-what~~ (done!)
 - ~~add settlements~~ (done! just click on who you want to pay in the balances dialog)
 - ~~show date in group transactions~~ (done!)
-- calculate monthly stats (expenses amount in last 30 days)
-- allow changing currency symbol ($, €, ¥, etc)
+- ~~show recently viewed groups in home~~ (done!)
 - ~~favorite a group for easy access in PWA (or provide some kind of shortcut)~~ (disabled PWA for now)
+- ~~support for more complex expenses: shared payment, divide by a subgroup~~ (must change storage model, too complicated for now)
 - ... and more!
 
 ## ❤️ contribute

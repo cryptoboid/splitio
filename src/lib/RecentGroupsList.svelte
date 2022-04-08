@@ -18,7 +18,7 @@
 			<Title>🕐 recent groups</Title>
 			<Content>
 				{#each recentGroups as item}
-					<Item on:click={() => redirectToGroup(item.groupId, item.secretKey)}>
+					<Item class="rounded-item" on:click={() => redirectToGroup(item.groupId, item.secretKey)}>
 						<Text>
 							{item.groupName}
 							<p class="footer">- id: {item.groupId}</p>

@@ -71,7 +71,7 @@
 			<Icon class="material-icons">add</Icon>
 			<Label>create group</Label>
 		</Button>
-		<div class="mdc-typography--body1">or paste your group id here:</div>
+		<!-- <div class="mdc-typography--body1">or paste your group id here:</div>
 		<Paper class="solo-paper" elevation={5}>
 			<Icon class="material-icons">group</Icon>
 			<Input
@@ -88,7 +88,7 @@
 			>
 				<Icon class="material-icons">arrow_forward</Icon>
 			</Fab>
-		</Paper>
+		</Paper> -->
 	</div>
 	<IconButton
 		on:click={() => redirectToAbout()}
