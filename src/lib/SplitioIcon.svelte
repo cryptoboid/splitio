@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 
 	export let isTopApp = false;
+	export let logoHeight: string | undefined = undefined;
 </script>
 
 {#if isTopApp}
@@ -25,7 +26,7 @@
 		on:click={() => goto('/')}
 		style="align-items: center; display: flex; flex-direction: column; border-radius: 17px;"
 	>
-		<img src={base + "/logo_black.png"} height="70rem" style="margin-bottom: 10px;" alt="icon" />
+		<img src={base + "/logo_black.png"} height={logoHeight || "70rem"} style="margin-bottom: 10px;" alt="icon" />
 		<div class="logo-home">splitio</div>
 	</div>
 {/if}
