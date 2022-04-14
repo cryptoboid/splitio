@@ -14,7 +14,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Fab, { Icon as FabIcon } from '@smui/fab';
-	import List, { Item, Text, PrimaryText, SecondaryText, Meta, Graphic } from '@smui/list';
+	import List, { Item, Text, Meta, Graphic } from '@smui/list';
 	import Snackbar, { Label, SnackbarComponentDev } from '@smui/snackbar';
 	import { initAppDB } from '$lib/_modules/initGun';
 	import AddExpenseDialog from '$lib/AddExpenseDialog.svelte';
@@ -23,11 +23,12 @@
 	import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 	import Chip, { Set, LeadingIcon, Text as ChipText } from '@smui/chips';
 	import { onSecure, setSecure } from '$lib/_modules/secure';
-	import { secretKey, groupDB, groupStore } from '$lib/_modules/stores';
+	import { secretKey, groupDB, groupStore, resetGroupStore } from '$lib/_modules/stores';
 	import LoadingSpinnerOverlay from '$lib/LoadingSpinnerOverlay.svelte';
 	import { storeRecentGroup } from '$lib/_modules/recentGroupsStorage';
 	import SyncIssuesDialog from '$lib/SyncIssuesDialog.svelte';
 	import TransactionsList from '$lib/TransactionsList.svelte';
+	import { PLACEHOLDER_GROUP_NAME } from '$lib/_modules/constants';
 
 	export let groupId: string;
 
@@ -47,7 +48,18 @@
 			title: 'share group',
 			icon: 'share',
 			onClick: () => {
-				navigator.clipboard.writeText(window.location.href).then(() => copiedLinkSnackbar.open());
+				if (navigator.share) {
+					navigator
+						.share({
+							title: 'splitio',
+							text: "Let's split bills with this group in splitio 💰",
+							url: window.location.href
+						})
+						.then(() => console.log('Successful share'))
+						.catch((error) => console.log('Error sharing', error));
+				} else {
+					navigator.clipboard.writeText(window.location.href).then(copiedLinkSnackbar.open);
+				}
 			}
 		},
 		{
@@ -65,8 +77,8 @@
 	];
 
 	onMount(() => {
+		resetGroupStore();
 		const appDB = initAppDB();
-		// SEA = getSEA();
 		$secretKey = window.location.hash;
 		const GROUPID = groupId || 'unknown group';
 		$groupDB = appDB.get(GROUPID);
@@ -187,7 +199,7 @@
 </div>
 
 <!-- loading overlay -->
-<LoadingSpinnerOverlay showOverlay={$groupStore.groupInfo.name === 'loading...'} />
+<LoadingSpinnerOverlay showOverlay={$groupStore.groupInfo.name === PLACEHOLDER_GROUP_NAME} />
 
 <!-- add member dialog -->
 <AddMemberDialog bind:openDialog={openAddMemberDialog} addCallback={addMember} />
@@ -205,7 +217,6 @@
 	paymentsObj={$groupStore.payments}
 	membersList={members}
 />
-
 
 <SyncIssuesDialog bind:openDialog={openSyncIssuesDialog} />
 
