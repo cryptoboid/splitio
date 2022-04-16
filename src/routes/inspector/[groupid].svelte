@@ -116,7 +116,6 @@
 <div class="mdc-typography--headline5">view from localStorage</div>
 
 <Textfield
-	disabled
 	style="width: 100%; height: 500px; margin: 0.5rem 0rem"
 	helperLine$style="width: 100%;"
 	textarea
@@ -126,7 +125,6 @@
 <div class="mdc-typography--headline5">view from indexedDB</div>
 
 <Textfield
-	disabled
 	style="width: 100%; height: 500px; margin: 0.5rem 0rem"
 	helperLine$style="width: 100%;"
 	textarea
@@ -148,15 +146,8 @@
 </div>
 
 <Textfield
-	disabled
 	style="width: 100%; height: 500px; margin: 0.5rem 0rem"
 	helperLine$style="width: 100%;"
 	textarea
 	value={JSON.stringify($groupStore, null, 2)}
 />
-
-<style>
-	* :global(.margins) {
-		margin: 0 0.4em 0.4em 0;
-	}
-</style>
