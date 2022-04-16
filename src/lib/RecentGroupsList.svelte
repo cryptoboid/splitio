@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import { redirectToGroup } from './_modules/utils';
 	import { slide } from 'svelte/transition';
+	import IconButton from '@smui/icon-button';
 
 	let recentGroups: object[] = [];
 	onMount(() => {
@@ -15,7 +16,10 @@
 {#if recentGroups.length !== 0}
 	<div in:slide={{ delay: 0, duration: 600 }}>
 		<Paper elevation={5} class="recent-paper">
-			<Title>🕐 recent groups</Title>
+			<Title style="justify-content: space-between; display: flex; align-items: center">
+				🕐 recent groups
+				<IconButton class="material-icons">settings</IconButton>
+			</Title>
 			<Content>
 				{#each recentGroups as item}
 					<Item class="rounded-item" on:click={() => redirectToGroup(item.groupId, item.secretKey)}>
