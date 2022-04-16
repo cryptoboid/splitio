@@ -9,7 +9,7 @@
     <img alt="Website" src="https://img.shields.io/website?down_color=red&down_message=offline&style=flat-square&up_message=up&url=https%3A%2F%2Fsplitio.vercel.app" />
   </a>
   <a aria-label="License" href="https://github.com/cryptoboid/splitio/blob/main/LICENSE" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/github/license/cryptoboid/splitio?style=flat-square" target="_blank" />
+    <img alt="License: AGPL" src="https://img.shields.io/github/license/cryptoboid/splitio?style=flat-square" target="_blank" />
   </a>
 </p>
 
@@ -75,4 +75,4 @@ also, as the code uses Gun with community servers and localStorage, persisting d
 
 ## ⚖️ license
 
-MIT
+AGPL
