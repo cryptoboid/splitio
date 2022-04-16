@@ -1,6 +1,15 @@
 {
-	"name": "smui-example-sveltekit",
-	"version": "0.0.1",
+	"name": "splitio",
+	"version": "1.0.0",
+	"license": "AGPL-3.0-or-later",
+	"author": {
+		"name": "cryptoboid"
+	},
+	"homepage": "https://github.com/cryptoboid/splitio",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/cryptoboid/splitio.git"
+	},
 	"scripts": {
 		"dev": "svelte-kit dev --host --https",
 		"build": "svelte-kit build",
