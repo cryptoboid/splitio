@@ -23,7 +23,8 @@
 		"smui-theme-dark": "smui-theme compile static/smui-dark.css -i src/theme/dark"
 	},
 	"dependencies": {
-		"gun": "^0.2020.1235"
+		"gun": "^0.2020.1235",
+		"svelte-seo": "^1.4.0"
 	},
 	"devDependencies": {
 		"@material/theme": "^11.0.0",
