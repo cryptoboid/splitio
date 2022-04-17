@@ -12,6 +12,7 @@
 </script>
 
 <script lang="ts">
+	import SvelteSeo from 'svelte-seo';
 	import { onMount } from 'svelte';
 	import Fab, { Icon as FabIcon } from '@smui/fab';
 	import List, { Item, Text, Meta, Graphic } from '@smui/list';
@@ -151,6 +152,23 @@
 	);
 	$: members = Object.entries($groupStore.members);
 </script>
+
+<SvelteSeo
+	openGraph={{
+		title: 'splitio | group',
+		description: 'split your bills easily! splitio is an open-source webapp built for tracking debts and payments quickly, without any user accounts.',
+		url: 'https://github.com/cryptoboid/splitio',
+		type: 'website',
+		images: [
+			{
+				url: 'https://raw.githubusercontent.com/cryptoboid/splitio/main/static/splitio_banner.png',
+				width: 1280,
+				height: 640,
+				alt: 'splitio promotion banner'
+			}
+		]
+	}}
+/>
 
 <svelte:head>
 	<title>splitio | {$groupStore.groupInfo.name}</title>
