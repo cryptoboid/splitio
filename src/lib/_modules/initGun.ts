@@ -13,6 +13,9 @@ export const initAppDB = () => {
         peers: [
             'https://splitio-relay.herokuapp.com/gun',
             'https://splitio-relay-alt.herokuapp.com/gun',
+            'https://splitio-relay-cryptoboid.cloud.okteto.net/gun',
+            'https://splitio-relay.up.railway.app/gun',
+            'https://splitio-relay.onrender.com/gun',
         ],
         localStorage: false
     });
