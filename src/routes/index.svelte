@@ -33,10 +33,10 @@
 
 	const createGroup = async (groupName: string) => {
 		showLoadingSpinner = true;
-		const result = appDB.set({ expenses: {}, members: {}, groupInfo: {} });
-		const secretKey = '#' + (await SEA.pair()).priv;
+		const pair = await SEA.pair();
+		const result = appDB.set({ expenses: {}, members: {}, groupInfo: {}, pubKey: pair?.pub });
+		const secretKey = '#' + pair.priv;
 		const nodeid = result._.has;
-		console.log(result, result._.has);
 		let infoNode = appDB.get(nodeid).get('groupInfo');
 		putSecure(infoNode, { name: groupName }, secretKey, (ack) => {
 			if (!ack.err) {
