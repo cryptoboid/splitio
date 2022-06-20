@@ -94,7 +94,7 @@
 				if (val === undefined) groupNodeState = GroupNodeStates.NotFound;
 				else groupNodeState = GroupNodeStates.Found;
 			},
-			{ wait: 2500 }
+			{ wait: 5000 }
 		);
 
 		onSecure(
