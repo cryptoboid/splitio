@@ -50,8 +50,7 @@ built with SvelteKit and GunDB.
 
 some extra desired features/fixes are:
 - better storage persistance with ["persistent" mode](https://developer.mozilla.org/en-US/docs/Web/API/Storage_API#box_modes)
-- design recover policy for [long-running groups](https://github.com/cryptoboid/splitio/issues/4#issuecomment-1095723737)
-- implement own relays --> [in progress!](https://github.com/cryptoboid/splitio/commit/786445f79cd4a10ea9762dbfcb2ed24737086c2d)
+- implement own relays with [write protections](https://github.com/cryptoboid/splitio/issues/19) --> [in progress!](https://github.com/cryptoboid/splitio/commit/786445f79cd4a10ea9762dbfcb2ed24737086c2d)
 - ~~compute who-owes-what~~ (done!)
 - ~~add settlements~~ (done! just click on who you want to pay in the balances dialog)
 - ~~show date in group transactions~~ (done!)

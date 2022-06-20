@@ -16,8 +16,12 @@
 >
 	<Title id="default-focus-title">👋 add someone</Title>
 	<Content id="default-focus-content">
-		enter their name:
-		<Textfield bind:value={inputName} />
+		<div>
+			enter their name:
+			<Textfield bind:value={inputName} />
+		</div>
+
+		<p>⚠️ once added, <strong>you can't edit nor delete a member</strong>, so choose wisely!</p>
 	</Content>
 	<Actions>
 		<Button>
