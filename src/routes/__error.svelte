@@ -51,7 +51,7 @@
 	}
 
 	.group-text-container {
-		/* padding: 0px 1px; */
+		padding-top: 1.5rem;
 		display: flex;
 		justify-content: center;
 		align-items: center;

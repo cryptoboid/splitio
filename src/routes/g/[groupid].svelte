@@ -30,6 +30,8 @@
 	import SyncIssuesDialog from '$lib/SyncIssuesDialog.svelte';
 	import TransactionsList from '$lib/TransactionsList.svelte';
 	import { PLACEHOLDER_GROUP_NAME } from '$lib/_modules/constants';
+	import { GroupNodeStates } from '$lib/_modules/types';
+	import GroupNotFoundDialog from '$lib/GroupNotFoundDialog.svelte';
 
 	export let groupId: string;
 
@@ -38,6 +40,8 @@
 	let openViewBalancesDialog: boolean = false;
 	let openSyncIssuesDialog: boolean = false;
 	let copiedLinkSnackbar: SnackbarComponentDev;
+
+	let groupNodeState = GroupNodeStates.Unknown;
 
 	let chips = [
 		{
@@ -83,6 +87,15 @@
 		$secretKey = window.location.hash;
 		const GROUPID = groupId || 'unknown group';
 		$groupDB = appDB.get(GROUPID);
+
+		// detect group not found
+		$groupDB.once(
+			(val) => {
+				if (val === undefined) groupNodeState = GroupNodeStates.NotFound;
+				else groupNodeState = GroupNodeStates.Found;
+			},
+			{ wait: 2500 }
+		);
 
 		onSecure(
 			$groupDB.get('expenses').map(),
@@ -218,6 +231,8 @@
 
 <!-- loading overlay -->
 <LoadingSpinnerOverlay showOverlay={$groupStore.groupInfo.name === PLACEHOLDER_GROUP_NAME} />
+
+<GroupNotFoundDialog {groupNodeState} />
 
 <!-- add member dialog -->
 <AddMemberDialog bind:openDialog={openAddMemberDialog} addCallback={addMember} />
