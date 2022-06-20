@@ -24,6 +24,7 @@
 	},
 	"dependencies": {
 		"gun": "^0.2020.1235",
+		"svelte-markdown": "^0.2.2",
 		"svelte-seo": "^1.4.0"
 	},
 	"devDependencies": {
