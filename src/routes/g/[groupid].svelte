@@ -23,7 +23,7 @@
 	import { getMemberAvatarURL } from '$lib/_modules/utils';
 	import ViewBalancesDialog from '$lib/ViewBalancesDialog.svelte';
 	import Chip, { Set, LeadingIcon, Text as ChipText } from '@smui/chips';
-	import { onSecure, setSecure } from '$lib/_modules/secure';
+	import { deleteSecure, onSecure, putSecure, setSecure } from '$lib/_modules/secure';
 	import { secretKey, groupDB, groupStore, resetGroupStore } from '$lib/_modules/stores';
 	import LoadingSpinnerOverlay from '$lib/LoadingSpinnerOverlay.svelte';
 	import { storeRecentGroup } from '$lib/_modules/recentGroupsStorage';
@@ -32,6 +32,7 @@
 	import { PLACEHOLDER_GROUP_NAME } from '$lib/_modules/constants';
 	import { GroupNodeStates } from '$lib/_modules/types';
 	import GroupNotFoundDialog from '$lib/GroupNotFoundDialog.svelte';
+	import GroupNotesDialog from '$lib/GroupNotesDialog.svelte';
 
 	export let groupId: string;
 
@@ -39,6 +40,7 @@
 	let openAddExpenseDialog: boolean = false;
 	let openViewBalancesDialog: boolean = false;
 	let openSyncIssuesDialog: boolean = false;
+	let openGroupNotesDialog: boolean = false;
 	let copiedLinkSnackbar: SnackbarComponentDev;
 
 	let groupNodeState = GroupNodeStates.Unknown;
@@ -48,6 +50,11 @@
 			title: 'balances',
 			icon: 'balance',
 			onClick: () => (openViewBalancesDialog = true)
+		},
+		{
+			title: 'group notes',
+			icon: 'description',
+			onClick: () => (openGroupNotesDialog = true)
 		},
 		{
 			title: 'share group',
@@ -72,13 +79,6 @@
 			icon: 'sync_problem',
 			onClick: () => (openSyncIssuesDialog = true)
 		}
-		// {
-		// 	title: 'monthly stats',
-		// 	icon: 'event',
-		// 	onClick: () => {
-		// 		alert('soon!');
-		// 	}
-		// }
 	];
 
 	onMount(() => {
@@ -139,6 +139,17 @@
 				$groupStore.payments = $groupStore.payments;
 			}
 		);
+
+		onSecure(
+			$groupDB.get('groupNotes'),
+			$secretKey,
+			(plain, key) => {
+				$groupStore.groupNotes = plain;
+			},
+			(key) => {
+				$groupStore.groupNotes = '';
+			}
+		);
 	});
 
 	const addExpense = async (expenseName: string, expenseAmount: number, memberName: string) => {
@@ -160,6 +171,12 @@
 		setSecure($groupDB.get('members'), { name: memberName }, $secretKey);
 	};
 
+	const putGroupNotes = (noteValue: string, onCompletion: Function) => {
+		let node = $groupDB.get('groupNotes');
+		if (!noteValue) deleteSecure(node, onCompletion)
+		else putSecure(node, noteValue, $secretKey, onCompletion);
+	};
+
 	$: transactions = Object.entries({ ...$groupStore.expenses, ...$groupStore.payments }).sort(
 		(a, b) => b[1].timestamp - a[1].timestamp
 	);
@@ -169,7 +186,8 @@
 <SvelteSeo
 	openGraph={{
 		title: 'splitio | group',
-		description: 'split your bills easily! splitio is an open-source webapp built for tracking debts and payments quickly, without any user accounts.',
+		description:
+			'split your bills easily! splitio is an open-source webapp built for tracking debts and payments quickly, without any user accounts.',
 		url: 'https://github.com/cryptoboid/splitio',
 		type: 'website',
 		images: [
@@ -252,6 +270,11 @@
 />
 
 <SyncIssuesDialog bind:openDialog={openSyncIssuesDialog} />
+
+<GroupNotesDialog
+	bind:openDialog={openGroupNotesDialog}
+	putNotesCallback={putGroupNotes}
+/>
 
 <Snackbar bind:this={copiedLinkSnackbar}>
 	<Label>📋 link copied to clipboard, now share it!</Label>
