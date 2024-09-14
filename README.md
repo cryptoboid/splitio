@@ -36,13 +36,11 @@ built with SvelteKit and GunDB.
     <a href=""><img width="21%" src="./screenshots/screen1.png"/></a>
     <a href=""><img width="21%" src="./screenshots/screen4.png"/></a>
     <a href=""><img width="21%" src="./screenshots/screen2.png"/></a>
-    <div/>
 </tr>
 <tr>
     <a href=""><img width="21%" src="./screenshots/screen3.png"/></a>
     <a href=""><img width="21%" src="./screenshots/screen5.png"/></a>
     <a href=""><img width="21%" src="./screenshots/screen6.png"/></a>
-
 </tr>
 </table>
 
@@ -50,7 +48,6 @@ built with SvelteKit and GunDB.
 
 some extra desired features/fixes are:
 - better storage persistance with ["persistent" mode](https://developer.mozilla.org/en-US/docs/Web/API/Storage_API#box_modes)
-- implement own relays with [write protections](https://github.com/cryptoboid/splitio/issues/19) --> [in progress!](https://github.com/cryptoboid/splitio/commit/786445f79cd4a10ea9762dbfcb2ed24737086c2d)
 - ~~compute who-owes-what~~ (done!)
 - ~~add settlements~~ (done! just click on who you want to pay in the balances dialog)
 - ~~show date in group transactions~~ (done!)
